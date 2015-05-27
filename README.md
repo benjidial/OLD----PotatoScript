@@ -1,5 +1,6 @@
 # PotatoScript
-This is the PotatoScript programming language.  It is developed by Benji Dial and Warren Galloway.
+This is the PotatoScript programming language.  It is developed by Benji Dial and Warren Galloway.  
+Feel free to create issues and pull requests as long as they are relevant.
 
 ## Version History
 ### Pre-Alpha 0.2.0
