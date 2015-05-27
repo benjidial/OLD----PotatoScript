@@ -1,0 +1,32 @@
+PSC:
+	BEEP
+		Makes a noise.
+	CLEARSCREEN
+		Clears the console.
+	COMMENT <comment>
+		Comments a line.
+	DIR <folder>
+		Changes the working directory.
+	EXIT <exitcode>
+		Closes this instance.
+	MAKEFOLDER <folder>
+		Creates a folder.
+	STARTPROCESS <process>
+		Starts a process.
+PSMC:
+	BEEP
+		Makes a noise.
+	CLEAR
+		Clears the console.
+	FOLDER
+	<folder>
+		Changes the working directory.
+	EXIT
+	<exitcode>
+		Closes this instance.
+	CREATEFOLDER
+	<folder>
+		Creates a folder.
+	START
+	<process>
+		Starts a process.

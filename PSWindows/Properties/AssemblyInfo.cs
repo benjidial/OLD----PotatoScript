@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PSW")]
-[assembly: AssemblyDescription("PotatoScriptW")]
+[assembly: AssemblyTitle("PS")]
+[assembly: AssemblyDescription("PotatoScript")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Benji Dial")]
-[assembly: AssemblyProduct("PSW for Windows")]
+[assembly: AssemblyProduct("PotatoScript for Windows")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyFileVersion("0.1.0.0")]
+[assembly: AssemblyVersion("0.1.1.0")]
+[assembly: AssemblyFileVersion("0.1.1.0")]
