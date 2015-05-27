@@ -1,6 +1,7 @@
 # PotatoScript
 This is the PotatoScript programming language.  It is developed by Benji Dial and Warren Galloway.  
-Feel free to create issues and pull requests as long as they are relevant.
+Please read the license file.  It is also available online at <http://opensource.org/licenses/MIT>.  
+Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Version History
 ### Pre-Alpha 0.2.0
