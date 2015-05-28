@@ -11,14 +11,13 @@ namespace NegativeFourPotatoes.PS.Windows
         static void Main(string[] args)
         {
             string strArgs = String.Empty;
-            bool bFirst = true;
-            foreach (string arg in args) { if (bFirst) bFirst = false; else strArgs += " "; strArgs += arg; }
+            foreach (string arg in args) strArgs += (arg + " ");
             string strNextArg = String.Empty;
             List<string> cNewArgs = new List<string>();
             bool bInsideQuotes = false;
             foreach (char q in strArgs.ToCharArray())
             {
-                if ((q == ' ') && (bInsideQuotes = false)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
+                if ((q == ' ') && (!bInsideQuotes)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
                 else if (q == '"') bInsideQuotes = !bInsideQuotes;
                 else strNextArg += q;
             }
