@@ -7,7 +7,7 @@
     <ProjectGuid>{251E2A16-7773-4203-ADE7-F2E0E245EC20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benji.PS.Default</RootNamespace>
+    <RootNamespace>NegativeFourPotatoes.PS.Default</RootNamespace>
     <AssemblyName>PSCode</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,8 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main Hub.cs" />

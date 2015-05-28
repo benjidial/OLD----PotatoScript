@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PS")]
-[assembly: AssemblyDescription("PotatoScript")]
+[assembly: AssemblyDescription("This will run PSC code on Windows.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Benji Dial")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PotatoScript for Windows")]
 [assembly: AssemblyCopyright("Copyright (c) 2015 Benji Dial and Warren Galloway")]
 [assembly: AssemblyTrademark("")]

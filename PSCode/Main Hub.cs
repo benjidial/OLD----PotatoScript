@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using Benji;
-using Benji.PS;
-using Benji.PS.Code;
+using NegativeFourPotatoes;
+using NegativeFourPotatoes.PS;
+using NegativeFourPotatoes.PS.Code;
 
-namespace Benji.PS.Code
+namespace NegativeFourPotatoes.PS.Code
 {
     /// <summary>
     /// This has the main wrapper's code.
@@ -57,7 +56,7 @@ namespace Benji.PS.Code
         /// </summary>
         /// <param name="args">This is an array of arguments, not including the executable.</param>
         /// <returns>This returns a value representing the final state of the program.
-        /// This is expressed as a <see cref="Benji.PS.Code.Hub.ExitState"/>.</returns>
+        /// This is expressed as a <see cref="NegativeFourPotatoes.PS.Code.Hub.ExitState"/>.</returns>
         public static ExitState Wrapper(string[ ] args)
         {
             try
@@ -145,7 +144,7 @@ namespace Benji.PS.Code
         /// </summary>
         /// <param name="filename">This is the name of the .psc file.</param>
         /// <param name="args">These are the arguments to be passed to PSM</param>
-        /// <returns>This returns a value in the form of <see cref="Benji.PS.Code.Hub.ExitState"/>
+        /// <returns>This returns a value in the form of <see cref="NegativeFourPotatoes.PS.Code.Hub.ExitState"/>
         /// representing the state at the end of the processing of the PSMC or a value representing
         /// an error occuring when converting the PSC to PSMC.</returns>
         internal static Hub.ExitState GetReady(string filename, string[ ] args)

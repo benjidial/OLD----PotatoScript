@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Benji;
-using Benji.PS;
-using Benji.PS.Windows;
+using NegativeFourPotatoes;
+using NegativeFourPotatoes.PS;
+using NegativeFourPotatoes.PS.Windows;
 
-namespace Benji.PS.Windows
+namespace NegativeFourPotatoes.PS.Windows
 {
     class MainProgram
     {

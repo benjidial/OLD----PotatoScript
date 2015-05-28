@@ -7,7 +7,7 @@
     <ProjectGuid>{C1AB0E9F-8B4D-4EB2-B261-7E4CDEE8538E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benji.PS.Default</RootNamespace>
+    <RootNamespace>NegativeFourPotatoes.PS.Default</RootNamespace>
     <AssemblyName>PS</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,8 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
