@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PS Code")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Benji Dial")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PotatoScript Code")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright (c) 2015 Benji Dial and Warren Galloway")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

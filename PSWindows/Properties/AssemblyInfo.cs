@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Benji Dial")]
 [assembly: AssemblyProduct("PotatoScript for Windows")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright (c) 2015 Benji Dial and Warren Galloway")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
