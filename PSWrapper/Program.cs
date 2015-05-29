@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using NegativeFourPotatoes;
 using NegativeFourPotatoes.PS;
-using NegativeFourPotatoes.PS.Windows;
+using NegativeFourPotatoes.PS.Wrapper;
 
-namespace NegativeFourPotatoes.PS.Windows
+namespace NegativeFourPotatoes.PS.Wrapper
 {
     class MainProgram
     {

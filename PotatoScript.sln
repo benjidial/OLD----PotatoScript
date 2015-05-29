@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSWindows", "PSWindows\PSWindows.csproj", "{C1AB0E9F-8B4D-4EB2-B261-7E4CDEE8538E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSWrapper", "PSWrapper\PSWrapper.csproj", "{C1AB0E9F-8B4D-4EB2-B261-7E4CDEE8538E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSCode", "PSCode\PSCode.csproj", "{251E2A16-7773-4203-ADE7-F2E0E245EC20}"
 EndProject
