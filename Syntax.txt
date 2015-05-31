@@ -9,8 +9,12 @@ PSC:
 		Changes the working directory.
 	EXIT <exitcode>
 		Closes this instance.
+	LOG <message>
+		Outpus a message to a log file.
 	MAKEFOLDER <folder>
 		Creates a folder.
+	OUTPUT <message>
+		Outputs a message to the console.
 	STARTPROCESS <process>
 		Starts a process.
 PSMC:
@@ -24,9 +28,15 @@ PSMC:
 	EXIT
 	<exitcode>
 		Closes this instance.
+	LOG
+	<message>
+		Outputs a message to a log file.
 	CREATEFOLDER
 	<folder>
 		Creates a folder.
+	CONSOLE
+	<message>
+		Ouputs a message to the console.
 	START
 	<process>
 		Starts a process.

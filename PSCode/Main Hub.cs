@@ -182,7 +182,9 @@ namespace NegativeFourPotatoes.PS.Code
                 else if (strLine.ToUpper() == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
                 else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("FOLDER\n" + strLine.Substring(4, strLine.Length - 4) + "\n");
                 else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n" + strLine.Substring(5, strLine.Length - 5) + "\n");
+                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("LOG\n" + strLine.Substring(4, strLine.Length - 4) + "\n");
                 else if (strLine.StartsWith(  "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n" + strLine.Substring(11, strLine.Length - 11) + "\n");
+                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("CONSOLE\n" + strLine.Substring(7, strLine.Length - 7) + "\n");
                 else if (strLine.StartsWith(  "STARTPROCESS ", true, null)) strFullCode += ("START\n" + strLine.Substring(13, strLine.Length - 13) + "\n");
                 else Console.Write("Err: " + strLine + " ");
             } while (!psc.EndOfStream);
@@ -204,7 +206,8 @@ namespace NegativeFourPotatoes.PS.Code
         /// </summary>
         /// <param name="psmc">This is the PSMC to be run.</param>
         /// <returns>This returns a value representing the end state of the program.</returns>
-        internal static sbyte RunCode(string psmc)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+        private static sbyte RunCode(string psmc)
         {
             char[] q = new char[1];
             q[0] = '\n';
@@ -227,9 +230,80 @@ namespace NegativeFourPotatoes.PS.Code
                     case "EXIT":
                         sbyte result;
                         if (sbyte.TryParse(psmc.Split(q)[0], out result)) return result; else return sbyte.MinValue;
-                    case "CREATEFOLER":
-                        Directory.CreateDirectory(Environment.GetEnvironmentVariable("PS_DIR") + psmc.Split(q)[0]);
+                    case "LOG":
+                        StreamWriter logfile;
+                        try
+                        {
+                            logfile = new StreamWriter(Environment.GetEnvironmentVariable("PS_DIR") + "logfile.log", true);
+                            logfile.WriteLine(psmc.Split(q)[0]);
+                            logfile.Flush();
+                            logfile.Close();
+                        }
+                        catch (UnauthorizedAccessException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Try running this from an administrator command prompt.");
+                        }
+                        catch (DirectoryNotFoundException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Is it on a disconnected network drive?");
+                        }
+                        catch (PathTooLongException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("You're too organized!");
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Where is it?");
+                        }
+                        catch (IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("In what language is this folder?");
+                        }
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
+                        continue;
+                    case "CREATEFOLER":
+                        try { Directory.CreateDirectory(Environment.GetEnvironmentVariable("PS_DIR") + psmc.Split(q)[0]); }
+                        catch (PathTooLongException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("I don't think you need any more folders.");
+                        }
+                        catch (DirectoryNotFoundException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Plug it in!");
+                        }
+                        catch (IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Fix it!");
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("I can't read this!");
+                        }
+                        catch (NotSupportedException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("What did I tell you about using colons in your folder names?");
+                        }
+                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
+                        continue;
+                    case "CONSOLE":
+                        Console.WriteLine(psmc.Split(q)[0]);
+                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
+                        continue;
+                    case "START":
+                        System.Diagnostics.Process process = new System.Diagnostics.Process();
+                        process.StartInfo.FileName = Environment.GetEnvironmentVariable("PS_DIR") + psmc.Split(q)[0];
+                        if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
+                        process.Close();
                         continue;
                 }
             }
