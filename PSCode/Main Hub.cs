@@ -59,8 +59,6 @@ namespace NegativeFourPotatoes.PS.Code
         /// This is expressed as a <see cref="NegativeFourPotatoes.PS.Code.Hub.ExitState"/>.</returns>
         public static ExitState Wrapper(string[ ] args)
         {
-            try
-            {
                 if (args.Length == 0)
                 {
                     Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
@@ -116,13 +114,6 @@ namespace NegativeFourPotatoes.PS.Code
                     Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
                     return ExitState.BadSyntax;
                 }
-            }
-            catch (Exception q)
-            {
-                Console.WriteLine("An error occured!  Here's some info:");
-                Console.WriteLine(q.ToString());
-                return ExitState.UnknownError;
-            }
         }
     }
 
@@ -190,7 +181,7 @@ namespace NegativeFourPotatoes.PS.Code
                 if      (strLine.ToUpper() == "BEEP")                       strFullCode +=  "BEEP\n";
                 else if (strLine.ToUpper() == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
                 else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("FOLDER\n" + strLine.Substring(4, strLine.Length - 4) + "\n");
-                else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n" + strLine.Substring(5, strLine.Length - 4) + "\n");
+                else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n" + strLine.Substring(5, strLine.Length - 5) + "\n");
                 else if (strLine.StartsWith(  "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n" + strLine.Substring(11, strLine.Length - 11) + "\n");
                 else if (strLine.StartsWith(  "STARTPROCESS ", true, null)) strFullCode += ("START\n" + strLine.Substring(13, strLine.Length - 13) + "\n");
                 else Console.Write("Err: " + strLine + " ");
