@@ -4,6 +4,14 @@ Please read the license file.  It is also available online at <http://opensource
 Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Version History
+### Pre-Alpha 0.3.0
+Added `LOG` command.
+Added `OUTPUT` command.
+Fixed bug with `EXIT` that made it unusable.
+Added error handling for `MAKEFOLDER`.
+Renamed `PSWindows` to `PSWrapper`.
+Renamed `LanguageIno.txt` to `Syntax.txt`.
+Changed old PSW icon to new PS icon.
 ### Pre-Alpha 0.2.2
 Fixed a **major** issue which makes the program think it has no arguments.
 ### Pre-Alpha 0.2.1
