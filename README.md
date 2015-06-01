@@ -4,6 +4,8 @@ Please read the license file.  It is also available online at <http://opensource
 Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Version History
+### Pre-Alpha 0.3.1
+Fixed a *large* issue which prefixes the `filename` argument with 'F:'.
 ### Pre-Alpha 0.3.0
 Added `LOG` command.  
 Added `OUTPUT` command.  

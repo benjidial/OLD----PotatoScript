@@ -107,7 +107,7 @@ namespace NegativeFourPotatoes.PS.Code
                 {
                     string[] q = new string[args.Length - 1];
                     for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
-                    return PSCProcessor.GetReady(args[0].TrimStart("/F:".ToCharArray()), q);
+                    return PSCProcessor.GetReady(args[0].Substring(3, args[0].Length - 3), q);
                 }
                 else
                 {
