@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using NegativeFourPotatoes;
 using NegativeFourPotatoes.PS;
-using NegativeFourPotatoes.PS.Wrapper;
 
-namespace NegativeFourPotatoes.PS.Wrapper
+namespace NegativeFourPotatoes.PS
 {
     class MainProgram
     {
@@ -23,7 +22,66 @@ namespace NegativeFourPotatoes.PS.Wrapper
             }
             string[] a_strNewArgs = new string[cNewArgs.Count];
             for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q] = cNewArgs[q];
-            Code.Hub.Wrapper(a_strNewArgs);
+            ProcessCommandLine(a_strNewArgs);
+        }
+
+        private static Misc.ExitState ProcessCommandLine(string[ ] args)
+        {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
+                return Misc.ExitState.BadSyntax;
+            }
+            if (args.Length == 1)
+            {
+                if (args[0] == "/?")
+                {
+                    Console.WriteLine("Executes PotatoScript code.");
+                    Console.WriteLine();
+                    Console.WriteLine("PS /F:filename [argument [argument [argument...]]]");
+                    Console.WriteLine();
+                    Console.WriteLine("  /F:filename  Specifies a file to execute.");
+                    Console.WriteLine("  argument     Specifies the argument or arguments to be passed to the file.");
+                    Console.WriteLine();
+                    Console.WriteLine("Arguments which contain spaces must be put inside double quotes.");
+                    Console.WriteLine();
+                    Console.WriteLine("For example:");
+                    Console.WriteLine();
+                    Console.WriteLine("PS /F:Adder.psc 1 2");
+                    Console.WriteLine("PS /F:Printer.psc \"Hello, world!\"");
+                    Console.WriteLine("PS /F:SpaceInvaders.psc");
+                    Console.WriteLine("PS /F:RepeatText.psc \"Hello, world!\" 42");
+                    Console.WriteLine();
+                    Console.WriteLine("For help with the syntax of PSC, do 'PS /S'.");
+                    return Misc.ExitState.HelpCommand;
+                }
+                if (args[0] == "/S")
+                {
+                    Console.WriteLine("PSC Syntax:");
+                    Console.WriteLine();
+                    Console.WriteLine("BEEP                 Makes a sound.");
+                    Console.WriteLine("CLEARSCREEN          Clears the console screen.");
+                    Console.WriteLine("COMMENT [text]       Comments out text.");
+                    Console.WriteLine("CLEARSCREEN          Clears the console screen.");
+                    Console.WriteLine("DIR [directory]      Changes PSW's working directory, or sets it to the root if no directory is supplied.");
+                    Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to 127) to the OS.");
+                    Console.WriteLine("                     If no number is supplied or the number is invalid, -128 is returned.");
+                    Console.WriteLine("MAKEFOLDER [name]    Creates a folder in the current working directory with the specified name.");
+                    Console.WriteLine("STARTPROCESS [name]  Starts the specified process on the user's machine.");
+                    return Misc.ExitState.HelpCommand;
+                }
+            }
+            if (args[0].StartsWith("/F:", true, null))
+            {
+                string[] q = new string[args.Length - 1];
+                for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
+                return PSCProcessor.GetReady(args[0].Substring(3, args[0].Length - 3), q);
+            }
+            else
+            {
+                Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
+                return Misc.ExitState.BadSyntax;
+            }
         }
     }
 }

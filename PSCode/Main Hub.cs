@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using NegativeFourPotatoes;
 using NegativeFourPotatoes.PS;
-using NegativeFourPotatoes.PS.Code;
 
-namespace NegativeFourPotatoes.PS.Code
+namespace NegativeFourPotatoes.PS
 {
     /// <summary>
-    /// This has the main wrapper's code.
+    /// This has the <see cref="NegativeFourPotatoes.PS.Misc.ExitState"/> enum.
     /// </summary>
-    public static class Hub
+    public static class Misc
     {
         /// <summary>
         /// These are the returnable states of the functions.
@@ -50,71 +49,6 @@ namespace NegativeFourPotatoes.PS.Code
             /// </summary>
             PositiveExit = 2,
         }
-
-        /// <summary>
-        /// This is the wrapper for most of the code.
-        /// </summary>
-        /// <param name="args">This is an array of arguments, not including the executable.</param>
-        /// <returns>This returns a value representing the final state of the program.
-        /// This is expressed as a <see cref="NegativeFourPotatoes.PS.Code.Hub.ExitState"/>.</returns>
-        public static ExitState Wrapper(string[ ] args)
-        {
-                if (args.Length == 0)
-                {
-                    Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
-                    return ExitState.BadSyntax;
-                }
-                if (args.Length == 1)
-                {
-                    if (args[0] == "/?")
-                    {
-                        Console.WriteLine("Executes PotatoScript code.");
-                        Console.WriteLine();
-                        Console.WriteLine("PS /F:filename [argument [argument [argument...]]]");
-                        Console.WriteLine();
-                        Console.WriteLine("  /F:filename  Specifies a file to execute.");
-                        Console.WriteLine("  argument     Specifies the argument or arguments to be passed to the file.");
-                        Console.WriteLine();
-                        Console.WriteLine("Arguments which contain spaces must be put inside double quotes.");
-                        Console.WriteLine();
-                        Console.WriteLine("For example:");
-                        Console.WriteLine();
-                        Console.WriteLine("PS /F:Adder.psc 1 2");
-                        Console.WriteLine("PS /F:Printer.psc \"Hello, world!\"");
-                        Console.WriteLine("PS /F:SpaceInvaders.psc");
-                        Console.WriteLine("PS /F:RepeatText.psc \"Hello, world!\" 42");
-                        Console.WriteLine();
-                        Console.WriteLine("For help with the syntax of PSC, do 'PS /S'.");
-                        return ExitState.HelpCommand;
-                    }
-                    if (args[0] == "/S")
-                    {
-                        Console.WriteLine("PSC Syntax:");
-                        Console.WriteLine();
-                        Console.WriteLine("BEEP                 Makes a sound.");
-                        Console.WriteLine("CLEARSCREEN          Clears the console screen.");
-                        Console.WriteLine("COMMENT [text]       Comments out text.");
-                        Console.WriteLine("CLEARSCREEN          Clears the console screen.");
-                        Console.WriteLine("DIR [directory]      Changes PSW's working directory, or sets it to the root if no directory is supplied.");
-                        Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to 127) to the OS.");
-                        Console.WriteLine("                     If no number is supplied or the number is invalid, -128 is returned.");
-                        Console.WriteLine("MAKEFOLDER [name]    Creates a folder in the current working directory with the specified name.");
-                        Console.WriteLine("STARTPROCESS [name]  Starts the specified process on the user's machine.");
-                        return ExitState.HelpCommand;
-                    }
-                }
-                if (args[0].StartsWith("/F:", true, null))
-                {
-                    string[] q = new string[args.Length - 1];
-                    for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
-                    return PSCProcessor.GetReady(args[0].Substring(3, args[0].Length - 3), q);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
-                    return ExitState.BadSyntax;
-                }
-        }
     }
 
     /// <summary>
@@ -136,10 +70,10 @@ namespace NegativeFourPotatoes.PS.Code
         /// </summary>
         /// <param name="filename">This is the name of the .psc file.</param>
         /// <param name="args">These are the arguments to be passed to PSM</param>
-        /// <returns>This returns a value in the form of <see cref="NegativeFourPotatoes.PS.Code.Hub.ExitState"/>
+        /// <returns>This returns a value in the form of <see cref="NegativeFourPotatoes.PS.Misc.ExitState"/>
         /// representing the state at the end of the processing of the PSMC or a value representing
         /// an error occuring when converting the PSC to PSMC.</returns>
-        internal static Hub.ExitState GetReady(string filename, string[ ] args)
+        public static Misc.ExitState GetReady(string filename, string[ ] args)
         {
             /*****************/
              /**  Open File  **/
@@ -149,24 +83,24 @@ namespace NegativeFourPotatoes.PS.Code
             catch (FileNotFoundException)
             {
                 Console.WriteLine("Error! We could find the folder, but not the file.");
-                return Hub.ExitState.FileNotFound;
+                return Misc.ExitState.FileNotFound;
             }
             catch (DirectoryNotFoundException)
             {
                 Console.WriteLine("Error! We could not find the folder with that file.");
-                return Hub.ExitState.FileNotFound;
+                return Misc.ExitState.FileNotFound;
             }
             catch (IOException q)
             {
                 Console.WriteLine("Error!");
                 Console.WriteLine(q.ToString());
-                return Hub.ExitState.UnknownFileError;
+                return Misc.ExitState.UnknownFileError;
             }
             catch (Exception q)
             {
                 Console.WriteLine("Error!");
                 Console.WriteLine(q.ToString());
-                return Hub.ExitState.UnknownError;
+                return Misc.ExitState.UnknownError;
             }
             Console.WriteLine("Success!");
             /*****************/
@@ -195,9 +129,9 @@ namespace NegativeFourPotatoes.PS.Code
             psc.Close();
             for (int q = 0; q < args.Length; q++) vars.Add("ARG" + q, args[q]);
             sbyte result = RunCode(strFullCode);
-            if (result < 0) return Hub.ExitState.NegativeExit;
-            else if (result > 0) return Hub.ExitState.PositiveExit;
-            else if (result == 0) return Hub.ExitState.Success;
+            if (result < 0) return Misc.ExitState.NegativeExit;
+            else if (result > 0) return Misc.ExitState.PositiveExit;
+            else if (result == 0) return Misc.ExitState.Success;
             else throw new Exception("Impossible state: sbyte result >= 0, <= 0, and != 0");
         }
 

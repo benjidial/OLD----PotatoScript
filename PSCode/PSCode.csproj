@@ -7,7 +7,7 @@
     <ProjectGuid>{251E2A16-7773-4203-ADE7-F2E0E245EC20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NegativeFourPotatoes.PS.Default</RootNamespace>
+    <RootNamespace>NegativeFourPotatoes.PS</RootNamespace>
     <AssemblyName>PSCode</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
