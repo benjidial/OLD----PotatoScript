@@ -66,8 +66,10 @@ namespace NegativeFourPotatoes.PS
                     Console.WriteLine("DIR [directory]      Changes PSW's working directory, or sets it to the root if no directory is supplied.");
                     Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to 127) to the OS.");
                     Console.WriteLine("                     If no number is supplied or the number is invalid, -128 is returned.");
+                    Console.WriteLine("LOG [text]           Logs some text to a logfile in the working directory.");
                     Console.WriteLine("MAKEFOLDER [name]    Creates a folder in the current working directory with the specified name.");
-                    Console.WriteLine("STARTPROCESS [name]  Starts the specified process on the user's machine.");
+                    Console.WriteLine("OUTPUT [text]        Outputs some text to the console.");
+                    Console.WriteLine("STARTPROCESS [name]  Starts the specified file in the working directoy on the user's machine.");
                     return Misc.ExitState.HelpCommand;
                 }
             }
