@@ -63,13 +63,17 @@ namespace NegativeFourPotatoes.PS
                     Console.WriteLine("CLEARSCREEN          Clears the console screen.");
                     Console.WriteLine("COMMENT [text]       Comments out text.");
                     Console.WriteLine("CLEARSCREEN          Clears the console screen.");
-                    Console.WriteLine("DIR [directory]      Changes PSW's working directory, or sets it to the root if no directory is supplied.");
-                    Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to 127) to the OS.");
-                    Console.WriteLine("                     If no number is supplied or the number is invalid, -128 is returned.");
+                    Console.WriteLine("DIR [directory]      Changes PS's working directory, or sets it to the root if");
+                    Console.WriteLine("                       no directory is supplied.");
+                    Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to");
+                    Console.WriteLine("                       127) to the OS.  If no number is supplied or the number");
+                    Console.WriteLine("                       is invalid, -128 is returned.");
                     Console.WriteLine("LOG [text]           Logs some text to a logfile in the working directory.");
-                    Console.WriteLine("MAKEFOLDER [name]    Creates a folder in the current working directory with the specified name.");
+                    Console.WriteLine("MAKEFOLDER [name]    Creates a folder in the current working directory with the");
+                    Console.WriteLine("                       specified name.");
                     Console.WriteLine("OUTPUT [text]        Outputs some text to the console.");
-                    Console.WriteLine("STARTPROCESS [name]  Starts the specified file in the working directoy on the user's machine.");
+                    Console.WriteLine("STARTPROCESS [name]  Opens the specified file in the working directoy on the");
+                    Console.WriteLine("                       user's machine.");
                     return Misc.ExitState.HelpCommand;
                 }
             }

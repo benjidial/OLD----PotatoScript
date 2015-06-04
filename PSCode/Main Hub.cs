@@ -123,12 +123,15 @@ namespace NegativeFourPotatoes.PS
                 else Console.Write("Err: " + strLine + " ");
             } while (!psc.EndOfStream);
             Console.WriteLine("Success!");
-            /********************************************************/
-             /**  Close File, Set Argument Variables, and Run Code  **/
-              /********************************************************/
+            /****************************/
+             /**  Et Cetera, Et Cetera  **/
+              /****************************/
             psc.Close();
             for (int q = 0; q < args.Length; q++) vars.Add("ARG" + q, args[q]);
+            string strTitle = Console.Title;
+            Console.Title = "PotatoScript";
             sbyte result = RunCode(strFullCode);
+            Console.Title = strTitle;
             if (result < 0) return Misc.ExitState.NegativeExit;
             else if (result > 0) return Misc.ExitState.PositiveExit;
             else if (result == 0) return Misc.ExitState.Success;
