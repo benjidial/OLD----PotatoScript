@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PS Code")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("PS")]
+[assembly: AssemblyDescription("This will run PSC code from a command line.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PotatoScript Code")]
+[assembly: AssemblyProduct("PotatoScript")]
 [assembly: AssemblyCopyright("Copyright (c) 2015 Benji Dial and Warren Galloway")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6702c335-8bf0-4ba6-9181-ff661de9fea5")]
+[assembly: Guid("ece34b94-28a6-4f48-a5d4-727819f9cb1b")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.4.0.1")]
-[assembly: AssemblyFileVersion("0.4.0.1")]
+[assembly: AssemblyVersion("0.4.0.2")]
+[assembly: AssemblyFileVersion("0.4.0.2")]

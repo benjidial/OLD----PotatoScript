@@ -5,23 +5,38 @@ PSC:
 		Clears the console.
 	COMMENT <comment>
 		Comments a line.
+	CONCAT <var1> <var2> <var3>
+		Assigns var1 + var2 to var3.
 	DIR <folder>
 		Changes the working directory.
 	EXIT <exitcode>
 		Closes this instance.
 	LOG <message>
-		Outpus a message to a log file.
+		Outputs a message to a log file.
+	LOGVAR <variable>
+		Outputs a variable to a log file.
 	MAKEFOLDER <folder>
 		Creates a folder.
 	OUTPUT <message>
 		Outputs a message to the console.
+	OUTPUTVAR <variable>
+		Outuputs a variable to the console.
+	READ <variable>
+		Reads from the console into a variable.
+	SETVAR <variable> <value>
+		Sets a variable.
 	STARTPROCESS <process>
 		Starts a process.
 PSMC:
-	BEEP
+	SOUND
 		Makes a noise.
 	CLEAR
 		Clears the console.
+	CONCATENATE
+	<var1>
+	<var2>
+	<var3>
+		Assigns var1 + var2 to var3.
 	FOLDER
 	<folder>
 		Changes the working directory.
@@ -31,12 +46,25 @@ PSMC:
 	LOG
 	<message>
 		Outputs a message to a log file.
+	LOGVARIABLE
+	<variable>
+		Outputs a variable to a log file.
 	CREATEFOLDER
 	<folder>
 		Creates a folder.
 	CONSOLE
 	<message>
 		Ouputs a message to the console.
+	CONSOLEVARIABLE
+	<variable>
+		Outputs a variable to the console.
+	USERVARIABLE
+	<variable>
+		Reads from the console into a variable.
+	VARIABLE
+	<variable>
+	<value>
+		Sets a variable.
 	START
 	<process>
 		Starts a process.
