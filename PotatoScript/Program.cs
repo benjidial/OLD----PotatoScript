@@ -193,11 +193,11 @@ namespace NegativeFourPotatoes.PS
                 else if (strLine.StartsWith(  "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"     + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
                 else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("VARIABLE\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
                 else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n"            + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOGVARIABLE\n__OUT__\n");
-                else if (strLine.StartsWith(  "LOGVAR ", true, null))       strFullCode += ("LOGVARIABLE\n"     + strLine.Substring(7,  strLine.Length - 7)  + "\n");
+                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOG\n__OUT__\n");
+                else if (strLine.StartsWith(  "LOGVAR ", true, null))       strFullCode += ("LOG\n"     + strLine.Substring(7,  strLine.Length - 7)  + "\n");
                 else if (strLine.StartsWith(  "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n"    + strLine.Substring(11, strLine.Length - 11) + "\n");
-                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLEVARIABLE\n__OUT__\n");
-                else if (strLine.StartsWith(  "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLEVARIABLE\n" + strLine.Substring(10, strLine.Length - 10) + "\n");
+                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLE\n__OUT__\n");
+                else if (strLine.StartsWith(  "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLE\n" + strLine.Substring(10, strLine.Length - 10) + "\n");
                 else if (strLine.StartsWith(  "READ ", true, null))         strFullCode += ("USERVARIABLE\n"    + strLine.Substring(5,  strLine.Length - 5)  + "\n");
                 else if (strLine.StartsWith(  "SETVAR ", true, null))       strFullCode += ("VARIABLE\n"        + strLine.Substring(7,  strLine.Length - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n");
                 else if (strLine.StartsWith(  "STARTPROCESS ", true, null)) strFullCode += ("START\n"           + strLine.Substring(13, strLine.Length - 13) + "\n");
@@ -259,7 +259,7 @@ namespace NegativeFourPotatoes.PS
                     case "EXIT":
                         sbyte result;
                         if (sbyte.TryParse(psmc.Split(q)[0], out result)) return result; else return sbyte.MinValue;
-                    case "LOGVARIABLE":
+                    case "LOG":
                         string variable = String.Empty;
                         logfile = null;
                         try
@@ -329,7 +329,7 @@ namespace NegativeFourPotatoes.PS
                         }
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
                         continue;
-                    case "CONSOLEVARIABLE":
+                    case "CONSOLE":
                         variable = String.Empty;
                         vars.TryGetValue(psmc.Split(q)[0], out variable);
                         Console.WriteLine(variable);
