@@ -145,7 +145,7 @@ namespace NegativeFourPotatoes.PS
         private static StreamReader psc;
         private static Dictionary<string, string> vars = new Dictionary<string, string>();
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sbyte"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sbyte"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         internal static Misc.ExitState GetReady(string filename, string[ ] args)
         {
             /*****************/
@@ -228,8 +228,7 @@ namespace NegativeFourPotatoes.PS
             Console.Title = strTitle;
             if (result < 0) return Misc.ExitState.NegativeExit;
             else if (result > 0) return Misc.ExitState.PositiveExit;
-            else if (result == 0) return Misc.ExitState.Success;
-            else throw new Exception("Impossible state: sbyte result >= 0, <= 0, and != 0");
+            else return Misc.ExitState.Success;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
