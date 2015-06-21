@@ -37,9 +37,6 @@ PSMC:
 	<var2>
 	<var3>
 		Assigns var1 + var2 to var3.
-	FOLDER
-	<folder>
-		Changes the working directory.
 	EXIT
 	<exitcode>
 		Closes this instance.
