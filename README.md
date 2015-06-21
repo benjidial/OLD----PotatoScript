@@ -5,7 +5,7 @@ Feel free to create issues and pull requests to the repository as long as they a
 
 ## Version History
 ### Alpha 0.4.1
-Changed the way the working directory is stored.  
+Changed some internal workings.  
 Made some code easier to keep up with.
 ### Alpha 0.4.0
 **First Alpha, variables!**  
