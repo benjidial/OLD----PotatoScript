@@ -37,25 +37,16 @@ PSMC:
 	<var2>
 	<var3>
 		Assigns var1 + var2 to var3.
-	FOLDER
-	<folder>
-		Changes the working directory.
 	EXIT
 	<exitcode>
 		Closes this instance.
 	LOG
-	<message>
-		Outputs a message to a log file.
-	LOGVARIABLE
 	<variable>
 		Outputs a variable to a log file.
 	CREATEFOLDER
 	<folder>
 		Creates a folder.
 	CONSOLE
-	<message>
-		Ouputs a message to the console.
-	CONSOLEVARIABLE
 	<variable>
 		Outputs a variable to the console.
 	USERVARIABLE
