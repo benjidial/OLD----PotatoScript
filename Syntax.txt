@@ -40,13 +40,13 @@ PSMC:
 	EXIT
 	<exitcode>
 		Closes this instance.
-	LOGVARIABLE
+	LOG
 	<variable>
 		Outputs a variable to a log file.
 	CREATEFOLDER
 	<folder>
 		Creates a folder.
-	CONSOLEVARIABLE
+	CONSOLE
 	<variable>
 		Outputs a variable to the console.
 	USERVARIABLE
