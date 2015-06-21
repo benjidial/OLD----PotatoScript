@@ -191,12 +191,12 @@ namespace NegativeFourPotatoes.PS
                 if      (strLine.ToUpper() == "BEEP")                       strFullCode +=  "SOUND\n";
                 else if (strLine.ToUpper() == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
                 else if (strLine.StartsWith(  "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"     + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
-                else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("SETVAR\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
+                else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("VARIABLE\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
                 else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n"            + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("LOG\n"             + strLine.Substring(4,  strLine.Length - 4)  + "\n");
+                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOGVARIABLE\n__OUT__\n");
                 else if (strLine.StartsWith(  "LOGVAR ", true, null))       strFullCode += ("LOGVARIABLE\n"     + strLine.Substring(7,  strLine.Length - 7)  + "\n");
                 else if (strLine.StartsWith(  "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n"    + strLine.Substring(11, strLine.Length - 11) + "\n");
-                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("CONSOLE\n"         + strLine.Substring(7,  strLine.Length - 7)  + "\n");
+                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLEVARIABLE\n__OUT__\n");
                 else if (strLine.StartsWith(  "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLEVARIABLE\n" + strLine.Substring(10, strLine.Length - 10) + "\n");
                 else if (strLine.StartsWith(  "READ ", true, null))         strFullCode += ("USERVARIABLE\n"    + strLine.Substring(5,  strLine.Length - 5)  + "\n");
                 else if (strLine.StartsWith(  "SETVAR ", true, null))       strFullCode += ("VARIABLE\n"        + strLine.Substring(7,  strLine.Length - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n");
@@ -231,7 +231,6 @@ namespace NegativeFourPotatoes.PS
             else return Misc.ExitState.Success;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         private static sbyte RunCode(string psmc)
         {
             char[] q = new char[1];
@@ -260,45 +259,6 @@ namespace NegativeFourPotatoes.PS
                     case "EXIT":
                         sbyte result;
                         if (sbyte.TryParse(psmc.Split(q)[0], out result)) return result; else return sbyte.MinValue;
-                    case "LOG":
-                        StreamWriter logfile = null;
-                        try
-                        {
-                            logfile = new StreamWriter(vars("__DIR__") + "logfile.log", true);
-                            logfile.WriteLine(psmc.Split(q)[0]);
-                            logfile.Flush();
-                        }
-                        catch (UnauthorizedAccessException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("Try running this from an administrator command prompt.");
-                        }
-                        catch (DirectoryNotFoundException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("Is it on a disconnected network drive?");
-                        }
-                        catch (PathTooLongException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("You're too organized!");
-                        }
-                        catch (ArgumentException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("Where is it?");
-                        }
-                        catch (IOException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("In what language is this folder?");
-                        }
-                        finally
-                        {
-                            if (logfile != null) logfile.Close();
-                        }
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
-                        continue;
                     case "LOGVARIABLE":
                         string variable = String.Empty;
                         logfile = null;
@@ -367,10 +327,6 @@ namespace NegativeFourPotatoes.PS
                             Console.WriteLine(e.Message);
                             Console.WriteLine("What did I tell you about using colons in your folder names?");
                         }
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
-                        continue;
-                    case "CONSOLE":
-                        Console.WriteLine(psmc.Split(q)[0]);
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
                         continue;
                     case "CONSOLEVARIABLE":
