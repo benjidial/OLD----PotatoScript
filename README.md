@@ -5,12 +5,12 @@ Feel free to create issues and pull requests to the repository as long as they a
 
 ## Version History
 ### Alpha 0.4.0
-##### First Alpha, variables!
+**First Alpha, variables!**  
 Reorganized program, including moving Dll into exe.  
 Terminal's title will be changed to PotatoScript whilst code is running.  
 Added `CONCAT`, `LOGVAR`, `OUTPUTVAR`, `READ`, and `SETVAR` commands.  
 Slightly modified the visual style of `PS /S`.  
-The program will now prompt a user on whether he or she wants to attempt execute code with syntax errors in it.
+The program will now prompt a user on whether he or she wants to attempt to execute code with syntax errors in it.
 ### Pre-Alpha 0.3.1
 Fixed a *large* issue which prefixes the `filename` argument with 'F:'.
 ### Pre-Alpha 0.3.0
