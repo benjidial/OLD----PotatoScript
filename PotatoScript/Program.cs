@@ -108,8 +108,8 @@ namespace NegativeFourPotatoes.PS
                     Console.WriteLine("CLEARSCREEN          Clears the console screen.");
                     Console.WriteLine("COMMENT [text]       Comments out text.");
                     Console.WriteLine("CONCAT [1] [2] [3]   Sets the variable 3 equal to variable 1 + variable 2.");
-                    Console.WriteLine("DIR [directory]      Changes PS's working directory, or sets it to the root if");
-                    Console.WriteLine("                       no directory is supplied.");
+                    Console.WriteLine("DIR [directory]      Changes the script's working directory, or sets it to the");
+                    Console.WriteLine("                       root if no directory is supplied.");
                     Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to");
                     Console.WriteLine("                       127) to the OS.  If no number is supplied or the number");
                     Console.WriteLine("                       is invalid, -128 is returned.");
@@ -191,7 +191,7 @@ namespace NegativeFourPotatoes.PS
                 if      (strLine.ToUpper() == "BEEP")                       strFullCode +=  "SOUND\n";
                 else if (strLine.ToUpper() == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
                 else if (strLine.StartsWith(  "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"     + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
-                else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("FOLDER\n"          + strLine.Substring(4,  strLine.Length - 4)  + "\n");
+                else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("SETVAR\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
                 else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n"            + strLine.Substring(5,  strLine.Length - 5)  + "\n");
                 else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("LOG\n"             + strLine.Substring(4,  strLine.Length - 4)  + "\n");
                 else if (strLine.StartsWith(  "LOGVAR ", true, null))       strFullCode += ("LOGVARIABLE\n"     + strLine.Substring(7,  strLine.Length - 7)  + "\n");
@@ -258,10 +258,6 @@ namespace NegativeFourPotatoes.PS
                         vars.Add(psmc.Split(q)[2], string1 + string2);
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1).Substring(psmc.Split(q)[0].Length + 1).Substring(psmc.Split(q)[0].Length + 1);
                         continue;
-                    case "FOLDER":
-                        Environment.SetEnvironmentVariable("PS_DIR", psmc.Split(q)[0]);
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
-                        continue;
                     case "EXIT":
                         sbyte result;
                         if (sbyte.TryParse(psmc.Split(q)[0], out result)) return result; else return sbyte.MinValue;
@@ -269,7 +265,7 @@ namespace NegativeFourPotatoes.PS
                         StreamWriter logfile = null;
                         try
                         {
-                            logfile = new StreamWriter(Environment.GetEnvironmentVariable("PS_DIR") + "logfile.log", true);
+                            logfile = new StreamWriter(vars("__DIR__") + "logfile.log", true);
                             logfile.WriteLine(psmc.Split(q)[0]);
                             logfile.Flush();
                         }
@@ -309,7 +305,7 @@ namespace NegativeFourPotatoes.PS
                         logfile = null;
                         try
                         {
-                            logfile = new StreamWriter(Environment.GetEnvironmentVariable("PS_DIR") + "logfile.log", true);
+                            logfile = new StreamWriter(vars("__DIR__") + "logfile.log", true);
                             vars.TryGetValue(psmc.Split(q)[0], out variable);
                             logfile.WriteLine(variable);
                             logfile.Flush();
@@ -346,7 +342,7 @@ namespace NegativeFourPotatoes.PS
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
                         continue;
                     case "CREATEFOLER":
-                        try { Directory.CreateDirectory(Environment.GetEnvironmentVariable("PS_DIR") + psmc.Split(q)[0]); }
+                        try { Directory.CreateDirectory(vars("__DIR__") + psmc.Split(q)[0]); }
                         catch (PathTooLongException e)
                         {
                             Console.WriteLine(e.Message);
@@ -399,7 +395,7 @@ namespace NegativeFourPotatoes.PS
                         try
                         {
                             process = new System.Diagnostics.Process();
-                            process.StartInfo.FileName = Environment.GetEnvironmentVariable("PS_DIR") + psmc.Split(q)[0];
+                            process.StartInfo.FileName = vars("__DIR__") + psmc.Split(q)[0];
                             if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
                         }
                         catch (InvalidOperationException) { }
