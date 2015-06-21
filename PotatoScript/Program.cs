@@ -145,7 +145,7 @@ namespace NegativeFourPotatoes.PS
         private static StreamReader psc;
         private static Dictionary<string, string> vars = new Dictionary<string, string>();
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sbyte"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sbyte"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         internal static Misc.ExitState GetReady(string filename, string[ ] args)
         {
             /*****************/
@@ -186,27 +186,28 @@ namespace NegativeFourPotatoes.PS
             bool bCorrect = true;
             do
             {
+                System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.InvariantCulture;
                 string strLine = psc.ReadLine().Trim();
-                if      (strLine.StartsWith(  "COMMENT", true, null))       continue;
-                if      (strLine.ToUpper() == "BEEP")                       strFullCode +=  "SOUND\n";
-                else if (strLine.ToUpper() == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
-                else if (strLine.StartsWith(  "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"     + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
-                else if (strLine.StartsWith(  "DIR ", true, null))          strFullCode += ("VARIABLE\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
-                else if (strLine.StartsWith(  "EXIT ", true, null))         strFullCode += ("EXIT\n"            + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(  "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOG\n__OUT__\n");
-                else if (strLine.StartsWith(  "LOGVAR ", true, null))       strFullCode += ("LOG\n"     + strLine.Substring(7,  strLine.Length - 7)  + "\n");
-                else if (strLine.StartsWith(  "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n"    + strLine.Substring(11, strLine.Length - 11) + "\n");
-                else if (strLine.StartsWith(  "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLE\n__OUT__\n");
-                else if (strLine.StartsWith(  "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLE\n" + strLine.Substring(10, strLine.Length - 10) + "\n");
-                else if (strLine.StartsWith(  "READ ", true, null))         strFullCode += ("USERVARIABLE\n"    + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(  "SETVAR ", true, null))       strFullCode += ("VARIABLE\n"        + strLine.Substring(7,  strLine.Length - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n");
-                else if (strLine.StartsWith(  "STARTPROCESS ", true, null)) strFullCode += ("START\n"           + strLine.Substring(13, strLine.Length - 13) + "\n");
+                if      (strLine.StartsWith(     "COMMENT", true, null))       continue;
+                if      (strLine.ToUpper(cul) == "BEEP")                       strFullCode +=  "SOUND\n";
+                else if (strLine.ToUpper(cul) == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
+                else if (strLine.StartsWith(     "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"       + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
+                else if (strLine.StartsWith(     "DIR ", true, null))          strFullCode += ("VARIABLE\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
+                else if (strLine.StartsWith(     "EXIT ", true, null))         strFullCode += ("EXIT\n"              + strLine.Substring(5,  strLine.Length - 5)  + "\n");
+                else if (strLine.StartsWith(     "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOG\n__OUT__\n");
+                else if (strLine.StartsWith(     "LOGVAR ", true, null))       strFullCode += ("LOG\n"               + strLine.Substring(7,  strLine.Length - 7)  + "\n");
+                else if (strLine.StartsWith(     "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n"      + strLine.Substring(11, strLine.Length - 11) + "\n");
+                else if (strLine.StartsWith(     "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLE\n__OUT__\n");
+                else if (strLine.StartsWith(     "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLE\n"           + strLine.Substring(10, strLine.Length - 10) + "\n");
+                else if (strLine.StartsWith(     "READ ", true, null))         strFullCode += ("USERVARIABLE\n"      + strLine.Substring(5,  strLine.Length - 5)  + "\n");
+                else if (strLine.StartsWith(     "SETVAR ", true, null))       strFullCode += ("VARIABLE\n"          + strLine.Substring(7,  strLine.Length - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n");
+                else if (strLine.StartsWith(     "STARTPROCESS ", true, null)) strFullCode += ("START\n"             + strLine.Substring(13, strLine.Length - 13) + "\n");
                 else { Console.Write("Err: " + strLine + " "); bCorrect = false; }
             } while (!psc.EndOfStream);
             if (bCorrect) Console.WriteLine("Success!");
             else
             {
-                Console.WriteLine("\nOne or more error(s) occured!");
+                Console.WriteLine("\nOne or more error(s) occurred!");
                 bool bValid;
                 do
                 {
@@ -231,6 +232,7 @@ namespace NegativeFourPotatoes.PS
             else return Misc.ExitState.Success;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         private static sbyte RunCode(string psmc)
         {
             char[] q = new char[1];
@@ -261,13 +263,17 @@ namespace NegativeFourPotatoes.PS
                         if (sbyte.TryParse(psmc.Split(q)[0], out result)) return result; else return sbyte.MinValue;
                     case "LOG":
                         string variable = String.Empty;
-                        logfile = null;
+                        StreamWriter logfile = null;
                         try
                         {
-                            logfile = new StreamWriter(vars("__DIR__") + "logfile.log", true);
-                            vars.TryGetValue(psmc.Split(q)[0], out variable);
-                            logfile.WriteLine(variable);
-                            logfile.Flush();
+                            string dir;
+                            if (vars.TryGetValue("__DIR__", out dir))
+                            {
+                                logfile = new StreamWriter(dir + "logfile.log", true);
+                                vars.TryGetValue(psmc.Split(q)[0], out variable);
+                                logfile.WriteLine(variable);
+                                logfile.Flush();
+                            }
                         }
                         catch (UnauthorizedAccessException e)
                         {
@@ -301,7 +307,11 @@ namespace NegativeFourPotatoes.PS
                         psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
                         continue;
                     case "CREATEFOLER":
-                        try { Directory.CreateDirectory(vars("__DIR__") + psmc.Split(q)[0]); }
+                        try
+                        {
+                            string dir;
+                            if (vars.TryGetValue("__DIR__", out dir)) Directory.CreateDirectory(dir + psmc.Split(q)[0]);
+                        }
                         catch (PathTooLongException e)
                         {
                             Console.WriteLine(e.Message);
@@ -349,9 +359,13 @@ namespace NegativeFourPotatoes.PS
                         System.Diagnostics.Process process = null;
                         try
                         {
-                            process = new System.Diagnostics.Process();
-                            process.StartInfo.FileName = vars("__DIR__") + psmc.Split(q)[0];
-                            if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
+                            string dir;
+                            if (vars.TryGetValue("__DIR__", out dir))
+                            {
+                                process = new System.Diagnostics.Process();
+                                process.StartInfo.FileName = dir + psmc.Split(q)[0];
+                                if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
+                            }
                         }
                         catch (InvalidOperationException) { }
                         finally
