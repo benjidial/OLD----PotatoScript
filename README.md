@@ -4,6 +4,9 @@ Please read the license file.  It is also available online at <http://opensource
 Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Version History
+### Alpha 0.4.1
+Changed the way the working directory is stored.  
+Made some code easier to keep up with.
 ### Alpha 0.4.0
 **First Alpha, variables!**  
 Reorganized program, including moving Dll into exe.  
