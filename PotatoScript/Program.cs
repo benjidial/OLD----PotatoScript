@@ -538,7 +538,12 @@ namespace NFP.PS
                             {
                                 process = new System.Diagnostics.Process();
                                 process.StartInfo.FileName = dir + psmc.Split(q)[0];
-                                if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
+                                try { if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!"); }
+                                catch (System.ComponentModel.Win32Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                    Console.WriteLine("AHH!  AN ERROR!");
+                                }
                             }
                         }
                         catch (InvalidOperationException) { }
