@@ -83,19 +83,19 @@ namespace NFP.PS
                 {
                     Console.WriteLine("Executes PotatoScript code.");
                     Console.WriteLine();
-                    Console.WriteLine("PS /F:filename [argument [argument [argument...]]]");
+                    Console.WriteLine("PS filename [argument [argument [argument...]]]");
                     Console.WriteLine();
-                    Console.WriteLine("  /F:filename  Specifies a file to execute.");
-                    Console.WriteLine("  argument     Specifies the argument or arguments to be passed to the file.");
+                    Console.WriteLine("  filename  Specifies a file to execute.");
+                    Console.WriteLine("  argument  Specifies the argument or arguments to be passed to the file.");
                     Console.WriteLine();
                     Console.WriteLine("Arguments which contain spaces must be put inside double quotes.");
                     Console.WriteLine();
                     Console.WriteLine("For example:");
                     Console.WriteLine();
-                    Console.WriteLine("PS /F:Adder.psc 1 2");
-                    Console.WriteLine("PS /F:Printer.psc \"Hello, world!\"");
-                    Console.WriteLine("PS /F:SpaceInvaders.psc");
-                    Console.WriteLine("PS /F:RepeatText.psc \"Hello, world!\" 42");
+                    Console.WriteLine("PS Adder.psc 1 2");
+                    Console.WriteLine("PS Printer.psc \"Hello, world!\"");
+                    Console.WriteLine("PS SpaceInvaders.psc");
+                    Console.WriteLine("PS RepeatText.psc \"Hello, world!\" 42");
                     Console.WriteLine();
                     Console.WriteLine("For help with the syntax of PSC, do 'PS /S'.");
                     return Misc.ExitState.HelpCommand;
@@ -135,17 +135,9 @@ namespace NFP.PS
                     return Misc.ExitState.HelpCommand;
                 }
             }
-            if (args[0].StartsWith("/F:", true, null))
-            {
-                string[] q = new string[args.Length - 1];
-                for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
-                return PSCProcessor.GetReady(args[0].Substring(3, args[0].Length - 3), q);
-            }
-            else
-            {
-                Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
-                return Misc.ExitState.BadSyntax;
-            }
+            string[] q = new string[args.Length - 1];
+            for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
+            return PSCProcessor.GetReady(args[0], q);
         }
     }
 
