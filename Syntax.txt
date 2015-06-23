@@ -1,4 +1,14 @@
 PSC:
+	ADD <num1> <num2> <num3>
+		Assigns num1 + num2 to num3.
+	SUBTRACT <num1> <num2> <num3>
+		Assigns num1 - num2 to num3.
+	MULTIPLY <num1> <num2> <num3>
+		Assigns num1 * num2 to num3.
+	DIVIDE <num1> <num2> <num3>
+		Assigns num1 / num2 to num3.
+	EXPONENT <num1> <num2> <num3>
+		Assigns num1 ^ num2 to num3.
 	BEEP
 		Makes a noise.
 	CLEARSCREEN
@@ -7,6 +17,8 @@ PSC:
 		Comments a line.
 	CONCAT <var1> <var2> <var3>
 		Assigns var1 + var2 to var3.
+	COPY <var1> <var2>
+		Assigns var1 to var2.
 	DIR <folder>
 		Changes the working directory.
 	EXIT <exitcode>
@@ -27,6 +39,10 @@ PSC:
 		Sets a variable.
 	STARTPROCESS <process>
 		Starts a process.
+	TONUMBER <strvar> <numvar>
+		Converts a string to a number.
+	TOSTRING <numvar> <strvar>
+		Converts a number to a string.
 PSMC:
 	SOUND
 		Makes a noise.
@@ -59,3 +75,26 @@ PSMC:
 	START
 	<process>
 		Starts a process.
+	TOSTRING
+	<numbervar>
+	<stringvar>
+		Converts a number to a string.
+	TONUMBER
+	<numbervar>
+	<stringvar>
+		Converts a string to a number.
+	SUBTRACT
+	<n1>
+	<n2>
+	<n3>
+		Sets n3 to n1 - n2.
+	DIVIDE
+	<n1>
+	<n2>
+	<n3>
+		Sets n3 to n1 / n2.
+	EXPONENT
+	<n1>
+	<n2>
+	<n3>
+		Sets n3 to n1 ^ n2.
