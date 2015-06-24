@@ -55,7 +55,7 @@ namespace NFP.PS
         static void Main(string[] args)
         {
             string strArgs = String.Empty;
-            foreach (string arg in args) strArgs += (arg + " ");
+            for (int q = 1; q < args.Length; q++ ) strArgs += (args[q] + " ");
             string strNextArg = String.Empty;
             List<string> cNewArgs = new List<string>();
             bool bInsideQuotes = false;
@@ -65,9 +65,19 @@ namespace NFP.PS
                 else if (q == '"') bInsideQuotes = !bInsideQuotes;
                 else strNextArg += q;
             }
-            string[] a_strNewArgs = new string[cNewArgs.Count];
-            for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q] = cNewArgs[q];
-            ProcessCommandLine(a_strNewArgs);
+            string[] a_strNewArgs = new string[cNewArgs.Count + 1];
+            a_strNewArgs[0] = args[0];
+            for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q + 1] = cNewArgs[q];
+            switch (ProcessCommandLine(a_strNewArgs))
+            {
+                case Misc.ExitState.FileNotFound:
+                case Misc.ExitState.UnknownError:
+                case Misc.ExitState.UnknownFileError:
+                    Console.WriteLine("Command was: " + Environment.CommandLine);
+                    Console.WriteLine("Press a key.");
+                    Console.ReadKey(true);
+                    break;
+            }
         }
 
         private static Misc.ExitState ProcessCommandLine(string[ ] args)
@@ -167,24 +177,24 @@ namespace NFP.PS
             try { psc = new StreamReader(filename); }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Error! We could find the folder, but not the file.");
+                Console.WriteLine("Error!  We couln't find that file.  Is it spelled correctly?");
                 return Misc.ExitState.FileNotFound;
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Error! We could not find the folder with that file.");
+                Console.WriteLine("Error!  We couldn't find the folder.");
                 return Misc.ExitState.FileNotFound;
             }
             catch (IOException q)
             {
                 Console.WriteLine("Error!");
-                Console.WriteLine(q.ToString());
+                Console.WriteLine(q.Message);
                 return Misc.ExitState.UnknownFileError;
             }
             catch (Exception q)
             {
                 Console.WriteLine("Error!");
-                Console.WriteLine(q.ToString());
+                Console.WriteLine(q.Message);
                 return Misc.ExitState.UnknownError;
             }
             Console.WriteLine("Success!");
@@ -192,7 +202,7 @@ namespace NFP.PS
             /**  Read File  **/
             /*****************/
             Console.Write("Reading file... ");
-            string strFullCode = "";
+            string strFullCode = String.Empty;
             char[] space = new char[1];
             space[0] = ' ';
             bool bCorrect = true;
