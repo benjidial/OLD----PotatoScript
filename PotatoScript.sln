@@ -10,10 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Syntax.txt = Syntax.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{122807D3-AB38-4AB1-8BB3-A2F60E394631}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{89A2D7C1-2D22-44DF-8A3C-19E763E4455C}"
 	ProjectSection(SolutionItems) = preProject
-		Adder.psc = Adder.psc
-		Printer.psc = Printer.psc
+		Examples\Adder.psc = Examples\Adder.psc
+		Examples\Printer.psc = Examples\Printer.psc
 	EndProjectSection
 EndProject
 Global

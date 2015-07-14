@@ -160,9 +160,10 @@ namespace NFP.PS
         {
             return from.Substring(offset, from.Length - offset);
         }
-        private static void nextline(out string newtext, string oldtext, string line)
+        private static void nextline(out string newtext, string oldtext)
         {
-            newtext = oldtext.Substring(line.Length + 1);
+            int length = oldtext.Split(new char[1] { '\n' })[0].Length;
+            newtext = oldtext.Substring(length + 1);
         }
 
         private static StreamReader psc;
@@ -214,7 +215,7 @@ namespace NFP.PS
                 System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.InvariantCulture;
                 string strLine = psc.ReadLine().Trim();
                 if (strLine.StartsWith("COMMENT", true, null)) continue;
-                if (strLine.StartsWith("ADD ", true, null)) strFullCode += String.Format("VARIABLE\n__ZERO__\n0\nSUBTRACT\n__ZERO__\n{1}\n__TEMP__\nSUBRACT\n{0}\n__TEMP__\n{2}", rest(strLine, 4).Split(space)[0], rest(strLine, 4).Split(space)[1], rest(strLine, 4).Split(space)[2]);
+                if (strLine.StartsWith("ADD ", true, null)) strFullCode += String.Format("VARIABLE\n__ZERO__\n0\nSUBTRACT\n__ZERO__\n{1}\n__TEMP__\nSUBTRACT\n{0}\n__TEMP__\n{2}\n", rest(strLine, 4).Split(space)[0], rest(strLine, 4).Split(space)[1], rest(strLine, 4).Split(space)[2]);
                 else if (strLine.ToUpper(cul) == "BEEP") strFullCode += "SOUND\n";
                 else if (strLine.ToUpper(cul) == "CLEARSCREEN") strFullCode += "CLEAR\n";
                 else if (strLine.StartsWith("CONCAT ", true, null)) strFullCode += String.Format("CONCATENATE\n{0}\n{1}\n{2}\n", rest(strLine, 7).Split(space)[0], rest(strLine, 7).Split(space)[1], rest(strLine, 7).Split(space)[2]);
@@ -226,15 +227,15 @@ namespace NFP.PS
                 else if (strLine.StartsWith("LOG ", true, null)) strFullCode += String.Format("VARIABLE\n__TEMP__\n{0}\nLOG\n__TEMP__\n", rest(strLine, 4));
                 else if (strLine.StartsWith("LOGVAR ", true, null)) strFullCode += String.Format("LOG\n{0}\n", rest(strLine, 7));
                 else if (strLine.StartsWith("MAKEFOLDER ", true, null)) strFullCode += String.Format("CREATEFOLDER\n{0}\n", rest(strLine, 11));
-                else if (strLine.StartsWith("MULTIPLY ", true, null)) strFullCode += String.Format("VARIABLE\n__ONE__\n1\nDIVIDE\n__ONE__\n{1}\n__TEMP__\nDIVIDE\n{0}\n__TEMP__\n{2}", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
+                else if (strLine.StartsWith("MULTIPLY ", true, null)) strFullCode += String.Format("VARIABLE\n__ONE__\n1\nDIVIDE\n__ONE__\n{1}\n__TEMP__\nDIVIDE\n{0}\n__TEMP__\n{2}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
                 else if (strLine.StartsWith("OUTPUT ", true, null)) strFullCode += String.Format("VARIABLE\n__TEMP__\n{0}\nCONSOLE\n__TEMP__\n", rest(strLine, 7));
                 else if (strLine.StartsWith("OUTPUTVAR ", true, null)) strFullCode += String.Format("CONSOLE\n{0}\n", rest(strLine, 10));
                 else if (strLine.StartsWith("READ ", true, null)) strFullCode += String.Format("USERVARIABLE\n{0}\n", rest(strLine, 5));
                 else if (strLine.StartsWith("SETVAR ", true, null)) strFullCode += String.Format("VARIABLE\n{0}\n{1}\n", rest(strLine, 7).Split(space)[0], rest(strLine, 7).Split(space)[1]);
                 else if (strLine.StartsWith("STARTPROCESS ", true, null)) strFullCode += String.Format("START\n{0}\n", rest(strLine, 13));
                 else if (strLine.StartsWith("SUBTRACT ", true, null)) strFullCode += String.Format("SUBTRACT\n{0}\n{1}\n{2}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
-                else if (strLine.StartsWith("TONUMBER ", true, null)) strFullCode += String.Format("TONUMBER\n{0}\n{1}", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
-                else if (strLine.StartsWith("TOSTRING ", true, null)) strFullCode += String.Format("TOSTRING\n{0}\n{1}", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
+                else if (strLine.StartsWith("TONUMBER ", true, null)) strFullCode += String.Format("TONUMBER\n{0}\n{1}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
+                else if (strLine.StartsWith("TOSTRING ", true, null)) strFullCode += String.Format("TOSTRING\n{0}\n{1}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
                 else { Console.Write("Err: " + strLine + " "); bCorrect = false; }
             } while (!psc.EndOfStream);
             if (bCorrect) Console.WriteLine("Success!");
@@ -278,7 +279,7 @@ namespace NFP.PS
             while (!String.IsNullOrEmpty(psmc))
             {
                 string strLine = psmc.Split(q)[0];
-                nextline(out psmc, psmc, strLine);
+                nextline(out psmc, psmc);
                 switch (strLine)
                 {
                     case "SOUND":
@@ -296,9 +297,9 @@ namespace NFP.PS
                         vars.TryGetValue(psmc.Split(q)[0], out string1);
                         vars.TryGetValue(psmc.Split(q)[1], out string2);
                         vars.Add(psmc.Split(q)[2], string1 + string2);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "COPYVARIABLE":
                         arenums.Remove(psmc.Split(q)[1]);
@@ -319,8 +320,8 @@ namespace NFP.PS
                             vars.TryGetValue(psmc.Split(q)[0], out text);
                             vars.Add(psmc.Split(q)[1], text);
                         }
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "TOSTRING":
                         arenums.Remove(psmc.Split(q)[1]);
@@ -330,8 +331,8 @@ namespace NFP.PS
                         double firstnumber;
                         nums.TryGetValue(psmc.Split(q)[0], out firstnumber);
                         vars.Add(psmc.Split(q)[1], firstnumber.ToString());
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "TONUMBER":
                         arenums.Remove(psmc.Split(q)[1]);
@@ -356,8 +357,8 @@ namespace NFP.PS
                         }
                         finally
                         {
-                            nextline(out psmc, psmc, strLine);
-                            nextline(out psmc, psmc, strLine);
+                            nextline(out psmc, psmc);
+                            nextline(out psmc, psmc);
                         }
                         continue;
                     case "DIVIDE":
@@ -370,9 +371,9 @@ namespace NFP.PS
                         nums.TryGetValue(psmc.Split(q)[0], out left);
                         nums.TryGetValue(psmc.Split(q)[1], out right);
                         nums.Add(psmc.Split(q)[2], left / right);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "EXPONENT":
                         arenums.Remove(psmc.Split(q)[2]);
@@ -382,9 +383,9 @@ namespace NFP.PS
                         nums.TryGetValue(psmc.Split(q)[0], out left);
                         nums.TryGetValue(psmc.Split(q)[1], out right);
                         nums.Add(psmc.Split(q)[2], System.Math.Pow(left, right));
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "EXIT":
                         sbyte result;
@@ -485,7 +486,7 @@ namespace NFP.PS
                         }
                         else vars.TryGetValue(psmc.Split(q)[0], out variable);
                         Console.WriteLine(variable);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
                         continue;
                     case "SUBTRACT":
                         arenums.Remove(psmc.Split(q)[2]);
@@ -495,9 +496,9 @@ namespace NFP.PS
                         nums.TryGetValue(psmc.Split(q)[0], out left);
                         nums.TryGetValue(psmc.Split(q)[1], out right);
                         nums.Add(psmc.Split(q)[2], left - right);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "USERVARIABLE":
                         arenums.Remove(psmc.Split(q)[0]);
@@ -515,7 +516,7 @@ namespace NFP.PS
                             vars.Add(psmc.Split(q)[0], input);
                             arenums.Add(psmc.Split(q)[0], false);
                         }
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
                         continue;
                     case "VARIABLE":
                         arenums.Remove(psmc.Split(q)[0]);
@@ -531,8 +532,8 @@ namespace NFP.PS
                             vars.Add(psmc.Split(q)[0], psmc.Split(q)[1]);
                             arenums.Add(psmc.Split(q)[0], false);
                         }
-                        nextline(out psmc, psmc, strLine);
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "START":
                         System.Diagnostics.Process process = null;
@@ -549,7 +550,7 @@ namespace NFP.PS
                             }
                         }
                         if (process != null) process.Close();
-                        nextline(out psmc, psmc, strLine);
+                        nextline(out psmc, psmc);
                         continue;
                 }
             }
