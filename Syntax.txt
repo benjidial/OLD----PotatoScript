@@ -44,6 +44,10 @@ PSC:
 	TOSTRING <numvar> <strvar>
 		Converts a number to a string.
 PSMC:
+    COPYVARIABLE
+	<var1>
+	<var2>
+		Assigns var1 to var2.
 	SOUND
 		Makes a noise.
 	CLEAR

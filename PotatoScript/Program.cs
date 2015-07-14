@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2015 Benji Dial and Warren Galloway
+// PotatoScript v0.5.0
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -115,31 +118,31 @@ namespace NFP.PS
                     Console.WriteLine("PSC Syntax:");
                     Console.WriteLine("Commands are not case-sensitive, but arguments are.");
                     Console.WriteLine();
-                    Console.WriteLine("ADD n1 n2 n3         Sets 3 equal to 1 + 2.");
+                    Console.WriteLine("ADD n1 n2 n3         Sets n3 equal to n1 + n2.");
                     Console.WriteLine("BEEP                 Makes a sound.");
                     Console.WriteLine("CLEARSCREEN          Clears the console screen.");
                     Console.WriteLine("COMMENT text         Comments out text.");
-                    Console.WriteLine("CONCAT s1 s2 s3      Sets the variable 3 equal to variable 1 + variable 2.");
+                    Console.WriteLine("CONCAT s1 s2 s3      Sets s3 equal to s1 + s2.");
                     Console.WriteLine("COPY n1 n2           Sets n2 equal to n1.");
                     Console.WriteLine("DIR folder           Changes the script's working directory, or sets it to the");
                     Console.WriteLine("                       root if no directory is supplied.");
-                    Console.WriteLine("DIVIDE n1 n2 n3      Sets 3 equal to 1 / 2.");
+                    Console.WriteLine("DIVIDE n1 n2 n3      Sets n3 equal to n1 / n2.");
                     Console.WriteLine("EXIT number          Exits the program and returns a specified integer (-128 to");
                     Console.WriteLine("                       127) to the OS.  If no number is supplied or the number");
                     Console.WriteLine("                       is invalid, -128 is returned.");
-                    Console.WriteLine("EXPONENT n1 n2 n3    Sets 3 equal to 1 ^ 2.");
+                    Console.WriteLine("EXPONENT n1 n2 n3    Sets n3 equal to n1 ^ n2.");
                     Console.WriteLine("LOG text             Logs some text to a log file in the working directory.");
                     Console.WriteLine("LOGVAR variable      Logs a variable to a log file in the working directory.");
                     Console.WriteLine("MAKEFOLDER folder    Creates a folder in the current working directory with the");
                     Console.WriteLine("                       specified name.");
-                    Console.WriteLine("MULTIPLY n1 n2 n3    Sets 3 equal to 1 * 2.");
+                    Console.WriteLine("MULTIPLY n1 n2 n3    Sets n3 equal to n1 * n2.");
                     Console.WriteLine("OUTPUT text          Outputs some text to the console.");
                     Console.WriteLine("OUTPUTVAR variable   Outputs a variable to the console.");
                     Console.WriteLine("READ variable        Reads from the console into a variable.");
                     Console.WriteLine("SETVAR var text      Sets a variable.");
                     Console.WriteLine("STARTPROCESS file    Opens the specified file in the working directory on the");
                     Console.WriteLine("                       user's machine.");
-                    Console.WriteLine("SUBTRACT n1 n2 n3    Sets 3 equal to 1 - 2.");
+                    Console.WriteLine("SUBTRACT n1 n2 n3    Sets n3 equal to n1 - n2.");
                     Console.WriteLine("TONUMBER svar nvar   Converts a string variable to a number variable.");
                     Console.WriteLine("TOSTRING nvar svar   Converts a number variable to a string variable.");
                     return Misc.ExitState.HelpCommand;
@@ -297,7 +300,7 @@ namespace NFP.PS
                         nextline(out psmc, psmc, strLine);
                         nextline(out psmc, psmc, strLine);
                         continue;
-                    case "COPY":
+                    case "COPYVARIABLE":
                         arenums.Remove(psmc.Split(q)[1]);
                         vars.Remove(psmc.Split(q)[1]);
                         nums.Remove(psmc.Split(q)[1]);

@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{122807D3-AB38-4AB1-8BB3-A2F60E394631}"
+	ProjectSection(SolutionItems) = preProject
+		Adder.psc = Adder.psc
+		Printer.psc = Printer.psc
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
