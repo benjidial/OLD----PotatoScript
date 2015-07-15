@@ -57,30 +57,26 @@ namespace NFP.PS
     {
         static void Main(string[] args)
         {
-            string strArgs = String.Empty;
-            for (int q = 1; q < args.Length; q++ ) strArgs += (args[q] + " ");
-            string strNextArg = String.Empty;
-            List<string> cNewArgs = new List<string>();
-            bool bInsideQuotes = false;
-            foreach (char q in strArgs.ToCharArray())
+            string[] a_strNewArgs;
+            if (args.Length > 0)
             {
-                if ((q == ' ') && (!bInsideQuotes)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
-                else if (q == '"') bInsideQuotes = !bInsideQuotes;
-                else strNextArg += q;
+                string strArgs = String.Empty;
+                for (int q = 1; q < args.Length; q++) strArgs += (args[q] + " ");
+                string strNextArg = String.Empty;
+                List<string> cNewArgs = new List<string>();
+                bool bInsideQuotes = false;
+                foreach (char q in strArgs.ToCharArray())
+                {
+                    if ((q == ' ') && (!bInsideQuotes)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
+                    else if (q == '"') bInsideQuotes = !bInsideQuotes;
+                    else strNextArg += q;
+                }
+                a_strNewArgs = new string[cNewArgs.Count + 1];
+                a_strNewArgs[0] = args[0];
+                for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q + 1] = cNewArgs[q];
             }
-            string[] a_strNewArgs = new string[cNewArgs.Count + 1];
-            a_strNewArgs[0] = args[0];
-            for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q + 1] = cNewArgs[q];
-            switch (ProcessCommandLine(a_strNewArgs))
-            {
-                case Misc.ExitState.FileNotFound:
-                case Misc.ExitState.UnknownError:
-                case Misc.ExitState.UnknownFileError:
-                    Console.WriteLine("Command was: " + Environment.CommandLine);
-                    Console.WriteLine("Press a key.");
-                    Console.ReadKey(true);
-                    break;
-            }
+            else a_strNewArgs = new string[0];
+            ProcessCommandLine(a_strNewArgs);
         }
 
         private static Misc.ExitState ProcessCommandLine(string[ ] args)
