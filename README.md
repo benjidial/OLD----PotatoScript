@@ -13,7 +13,8 @@ Added `COPY` command.
 Added error handling for `STARTPROCESS` command.  
 Got rid of `/F:` in front of filename on command-line.  Do `PS /?` for more info.  
 Modified the way the code deals with errors during `GetReady`.  
-Added `Adder.psc` and `Printer.psc` examples.
+Added `Adder.psc` and `Printer.psc` examples.  
+No longer crashes upon starting with no arguments.
 ### Alpha 0.4.1
 Changed some internal workings.  
 Made some code easier to keep up with.
