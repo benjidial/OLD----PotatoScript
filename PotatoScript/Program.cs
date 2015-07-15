@@ -1,8 +1,11 @@
-﻿using System;
+﻿// Copyright (c) 2015 Benji Dial and Warren Galloway
+// PotatoScript v0.5.0
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NegativeFourPotatoes.PS
+namespace NFP.PS
 {
     internal static class Misc
     {
@@ -54,19 +57,25 @@ namespace NegativeFourPotatoes.PS
     {
         static void Main(string[] args)
         {
-            string strArgs = String.Empty;
-            foreach (string arg in args) strArgs += (arg + " ");
-            string strNextArg = String.Empty;
-            List<string> cNewArgs = new List<string>();
-            bool bInsideQuotes = false;
-            foreach (char q in strArgs.ToCharArray())
+            string[] a_strNewArgs;
+            if (args.Length > 0)
             {
-                if ((q == ' ') && (!bInsideQuotes)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
-                else if (q == '"') bInsideQuotes = !bInsideQuotes;
-                else strNextArg += q;
+                string strArgs = String.Empty;
+                for (int q = 1; q < args.Length; q++) strArgs += (args[q] + " ");
+                string strNextArg = String.Empty;
+                List<string> cNewArgs = new List<string>();
+                bool bInsideQuotes = false;
+                foreach (char q in strArgs.ToCharArray())
+                {
+                    if ((q == ' ') && (!bInsideQuotes)) { cNewArgs.Add(strNextArg); strNextArg = String.Empty; }
+                    else if (q == '"') bInsideQuotes = !bInsideQuotes;
+                    else strNextArg += q;
+                }
+                a_strNewArgs = new string[cNewArgs.Count + 1];
+                a_strNewArgs[0] = args[0];
+                for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q + 1] = cNewArgs[q];
             }
-            string[] a_strNewArgs = new string[cNewArgs.Count];
-            for (int q = 0; q < cNewArgs.Count; q++) a_strNewArgs[q] = cNewArgs[q];
+            else a_strNewArgs = new string[0];
             ProcessCommandLine(a_strNewArgs);
         }
 
@@ -83,19 +92,19 @@ namespace NegativeFourPotatoes.PS
                 {
                     Console.WriteLine("Executes PotatoScript code.");
                     Console.WriteLine();
-                    Console.WriteLine("PS /F:filename [argument [argument [argument...]]]");
+                    Console.WriteLine("PS filename [argument [argument [argument...]]]");
                     Console.WriteLine();
-                    Console.WriteLine("  /F:filename  Specifies a file to execute.");
-                    Console.WriteLine("  argument     Specifies the argument or arguments to be passed to the file.");
+                    Console.WriteLine("  filename  Specifies a file to execute.");
+                    Console.WriteLine("  argument  Specifies the argument or arguments to be passed to the file.");
                     Console.WriteLine();
                     Console.WriteLine("Arguments which contain spaces must be put inside double quotes.");
                     Console.WriteLine();
                     Console.WriteLine("For example:");
                     Console.WriteLine();
-                    Console.WriteLine("PS /F:Adder.psc 1 2");
-                    Console.WriteLine("PS /F:Printer.psc \"Hello, world!\"");
-                    Console.WriteLine("PS /F:SpaceInvaders.psc");
-                    Console.WriteLine("PS /F:RepeatText.psc \"Hello, world!\" 42");
+                    Console.WriteLine("PS Adder.psc 1 2");
+                    Console.WriteLine("PS Printer.psc \"Hello, world!\"");
+                    Console.WriteLine("PS SpaceInvaders.psc");
+                    Console.WriteLine("PS RepeatText.psc \"Hello, world!\" 42");
                     Console.WriteLine();
                     Console.WriteLine("For help with the syntax of PSC, do 'PS /S'.");
                     return Misc.ExitState.HelpCommand;
@@ -103,47 +112,60 @@ namespace NegativeFourPotatoes.PS
                 if (args[0] == "/S")
                 {
                     Console.WriteLine("PSC Syntax:");
+                    Console.WriteLine("Commands are not case-sensitive, but arguments are.");
                     Console.WriteLine();
+                    Console.WriteLine("ADD n1 n2 n3         Sets n3 equal to n1 + n2.");
                     Console.WriteLine("BEEP                 Makes a sound.");
                     Console.WriteLine("CLEARSCREEN          Clears the console screen.");
-                    Console.WriteLine("COMMENT [text]       Comments out text.");
-                    Console.WriteLine("CONCAT [1] [2] [3]   Sets the variable 3 equal to variable 1 + variable 2.");
-                    Console.WriteLine("DIR [directory]      Changes the script's working directory, or sets it to the");
+                    Console.WriteLine("COMMENT text         Comments out text.");
+                    Console.WriteLine("CONCAT s1 s2 s3      Sets s3 equal to s1 + s2.");
+                    Console.WriteLine("COPY n1 n2           Sets n2 equal to n1.");
+                    Console.WriteLine("DIR folder           Changes the script's working directory, or sets it to the");
                     Console.WriteLine("                       root if no directory is supplied.");
-                    Console.WriteLine("EXIT [number]        Exits the program and returns a specified integer (-128 to");
+                    Console.WriteLine("DIVIDE n1 n2 n3      Sets n3 equal to n1 / n2.");
+                    Console.WriteLine("EXIT number          Exits the program and returns a specified integer (-128 to");
                     Console.WriteLine("                       127) to the OS.  If no number is supplied or the number");
                     Console.WriteLine("                       is invalid, -128 is returned.");
-                    Console.WriteLine("LOG [text]           Logs some text to a log file in the working directory.");
-                    Console.WriteLine("LOGVAR [variable]    Logs a variable to a log file in the working directory.");
-                    Console.WriteLine("MAKEFOLDER [folder]  Creates a folder in the current working directory with the");
+                    Console.WriteLine("EXPONENT n1 n2 n3    Sets n3 equal to n1 ^ n2.");
+                    Console.WriteLine("LOG text             Logs some text to a log file in the working directory.");
+                    Console.WriteLine("LOGVAR variable      Logs a variable to a log file in the working directory.");
+                    Console.WriteLine("MAKEFOLDER folder    Creates a folder in the current working directory with the");
                     Console.WriteLine("                       specified name.");
-                    Console.WriteLine("OUTPUT [text]        Outputs some text to the console.");
-                    Console.WriteLine("OUTPUTVAR [variable] Outputs a variable to the console.");
-                    Console.WriteLine("READ [variable]      Reads from the console into a variable.");
-                    Console.WriteLine("SETVAR [var] [text]  Sets a variable.");
-                    Console.WriteLine("STARTPROCESS [name]  Opens the specified file in the working directory on the");
+                    Console.WriteLine("MULTIPLY n1 n2 n3    Sets n3 equal to n1 * n2.");
+                    Console.WriteLine("OUTPUT text          Outputs some text to the console.");
+                    Console.WriteLine("OUTPUTVAR variable   Outputs a variable to the console.");
+                    Console.WriteLine("READ variable        Reads from the console into a variable.");
+                    Console.WriteLine("SETVAR var text      Sets a variable.");
+                    Console.WriteLine("STARTPROCESS file    Opens the specified file in the working directory on the");
                     Console.WriteLine("                       user's machine.");
+                    Console.WriteLine("SUBTRACT n1 n2 n3    Sets n3 equal to n1 - n2.");
+                    Console.WriteLine("TONUMBER svar nvar   Converts a string variable to a number variable.");
+                    Console.WriteLine("TOSTRING nvar svar   Converts a number variable to a string variable.");
                     return Misc.ExitState.HelpCommand;
                 }
             }
-            if (args[0].StartsWith("/F:", true, null))
-            {
-                string[] q = new string[args.Length - 1];
-                for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
-                return PSCProcessor.GetReady(args[0].Substring(3, args[0].Length - 3), q);
-            }
-            else
-            {
-                Console.WriteLine("Invalid syntax.  Type 'PS /?' for help and examples.");
-                return Misc.ExitState.BadSyntax;
-            }
+            string[] q = new string[args.Length - 1];
+            for (uint w = 0; w < q.Length; w++) q[w] = args[w + 1];
+            return PSCProcessor.GetReady(args[0], q);
         }
     }
 
     internal static class PSCProcessor
     {
+        private static string rest(string from, int offset)
+        {
+            return from.Substring(offset, from.Length - offset);
+        }
+        private static void nextline(out string newtext, string oldtext)
+        {
+            int length = oldtext.Split(new char[1] { '\n' })[0].Length;
+            newtext = oldtext.Substring(length + 1);
+        }
+
         private static StreamReader psc;
         private static Dictionary<string, string> vars = new Dictionary<string, string>();
+        private static Dictionary<string, double> nums = new Dictionary<string, double>();
+        private static Dictionary<string, bool>arenums = new Dictionary<string, bool>();
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sbyte"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         internal static Misc.ExitState GetReady(string filename, string[ ] args)
@@ -155,24 +177,24 @@ namespace NegativeFourPotatoes.PS
             try { psc = new StreamReader(filename); }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Error! We could find the folder, but not the file.");
+                Console.WriteLine("Error!  We couln't find that file.  Is it spelled correctly?");
                 return Misc.ExitState.FileNotFound;
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Error! We could not find the folder with that file.");
+                Console.WriteLine("Error!  We couldn't find the folder.");
                 return Misc.ExitState.FileNotFound;
             }
             catch (IOException q)
             {
                 Console.WriteLine("Error!");
-                Console.WriteLine(q.ToString());
+                Console.WriteLine(q.Message);
                 return Misc.ExitState.UnknownFileError;
             }
             catch (Exception q)
             {
                 Console.WriteLine("Error!");
-                Console.WriteLine(q.ToString());
+                Console.WriteLine(q.Message);
                 return Misc.ExitState.UnknownError;
             }
             Console.WriteLine("Success!");
@@ -180,7 +202,7 @@ namespace NegativeFourPotatoes.PS
             /**  Read File  **/
             /*****************/
             Console.Write("Reading file... ");
-            string strFullCode = "";
+            string strFullCode = String.Empty;
             char[] space = new char[1];
             space[0] = ' ';
             bool bCorrect = true;
@@ -188,20 +210,28 @@ namespace NegativeFourPotatoes.PS
             {
                 System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.InvariantCulture;
                 string strLine = psc.ReadLine().Trim();
-                if      (strLine.StartsWith(     "COMMENT", true, null))       continue;
-                if      (strLine.ToUpper(cul) == "BEEP")                       strFullCode +=  "SOUND\n";
-                else if (strLine.ToUpper(cul) == "CLEARSCREEN")                strFullCode +=  "CLEAR\n";
-                else if (strLine.StartsWith(     "CONCAT ", true, null))       strFullCode += ("CONCATENATE\n"       + strLine.Substring(7, strLine.Length  - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[2] + "\n");
-                else if (strLine.StartsWith(     "DIR ", true, null))          strFullCode += ("VARIABLE\n__DIR__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\n");
-                else if (strLine.StartsWith(     "EXIT ", true, null))         strFullCode += ("EXIT\n"              + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(     "LOG ", true, null))          strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(4,  strLine.Length - 4)  + "\nLOG\n__OUT__\n");
-                else if (strLine.StartsWith(     "LOGVAR ", true, null))       strFullCode += ("LOG\n"               + strLine.Substring(7,  strLine.Length - 7)  + "\n");
-                else if (strLine.StartsWith(     "MAKEFOLDER ", true, null))   strFullCode += ("CREATEFOLDER\n"      + strLine.Substring(11, strLine.Length - 11) + "\n");
-                else if (strLine.StartsWith(     "OUTPUT ", true, null))       strFullCode += ("VARIABLE\n__OUT__\n" + strLine.Substring(7,  strLine.Length - 7)  + "\nCONSOLE\n__OUT__\n");
-                else if (strLine.StartsWith(     "OUTPUTVAR ", true, null))    strFullCode += ("CONSOLE\n"           + strLine.Substring(10, strLine.Length - 10) + "\n");
-                else if (strLine.StartsWith(     "READ ", true, null))         strFullCode += ("USERVARIABLE\n"      + strLine.Substring(5,  strLine.Length - 5)  + "\n");
-                else if (strLine.StartsWith(     "SETVAR ", true, null))       strFullCode += ("VARIABLE\n"          + strLine.Substring(7,  strLine.Length - 7).Split(space)[0] + "\n" + strLine.Substring(7, strLine.Length - 7).Split(space)[1] + "\n");
-                else if (strLine.StartsWith(     "STARTPROCESS ", true, null)) strFullCode += ("START\n"             + strLine.Substring(13, strLine.Length - 13) + "\n");
+                if (strLine.StartsWith("COMMENT", true, null)) continue;
+                if (strLine.StartsWith("ADD ", true, null)) strFullCode += String.Format("VARIABLE\n__ZERO__\n0\nSUBTRACT\n__ZERO__\n{1}\n__TEMP__\nSUBTRACT\n{0}\n__TEMP__\n{2}\n", rest(strLine, 4).Split(space)[0], rest(strLine, 4).Split(space)[1], rest(strLine, 4).Split(space)[2]);
+                else if (strLine.ToUpper(cul) == "BEEP") strFullCode += "SOUND\n";
+                else if (strLine.ToUpper(cul) == "CLEARSCREEN") strFullCode += "CLEAR\n";
+                else if (strLine.StartsWith("CONCAT ", true, null)) strFullCode += String.Format("CONCATENATE\n{0}\n{1}\n{2}\n", rest(strLine, 7).Split(space)[0], rest(strLine, 7).Split(space)[1], rest(strLine, 7).Split(space)[2]);
+                else if (strLine.StartsWith("COPY ", true, null)) strFullCode += String.Format("COPYVARIABLE\n{0}\n{1}\n", rest(strLine, 5).Split(space)[0], rest(strLine, 5).Split(space)[1]);
+                else if (strLine.StartsWith("DIR ", true, null)) strFullCode += String.Format("VARIABLE\n__DIR__\n{0}\n", rest(strLine, 4));
+                else if (strLine.StartsWith("DIVIDE ", true, null)) strFullCode += String.Format("DIVIDE\n{0}\n{1}\n{2}\n", rest(strLine, 7).Split(space)[0], rest(strLine, 7).Split(space)[1], rest(strLine, 7).Split(space)[2]);
+                else if (strLine.StartsWith("EXIT ", true, null)) strFullCode += String.Format("EXIT\n{0}\n", rest(strLine, 5));
+                else if (strLine.StartsWith("EXPONENT ", true, null)) strFullCode += String.Format("EXPONENT\n{0}\n{1}\n{2}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
+                else if (strLine.StartsWith("LOG ", true, null)) strFullCode += String.Format("VARIABLE\n__TEMP__\n{0}\nLOG\n__TEMP__\n", rest(strLine, 4));
+                else if (strLine.StartsWith("LOGVAR ", true, null)) strFullCode += String.Format("LOG\n{0}\n", rest(strLine, 7));
+                else if (strLine.StartsWith("MAKEFOLDER ", true, null)) strFullCode += String.Format("CREATEFOLDER\n{0}\n", rest(strLine, 11));
+                else if (strLine.StartsWith("MULTIPLY ", true, null)) strFullCode += String.Format("VARIABLE\n__ONE__\n1\nDIVIDE\n__ONE__\n{1}\n__TEMP__\nDIVIDE\n{0}\n__TEMP__\n{2}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
+                else if (strLine.StartsWith("OUTPUT ", true, null)) strFullCode += String.Format("VARIABLE\n__TEMP__\n{0}\nCONSOLE\n__TEMP__\n", rest(strLine, 7));
+                else if (strLine.StartsWith("OUTPUTVAR ", true, null)) strFullCode += String.Format("CONSOLE\n{0}\n", rest(strLine, 10));
+                else if (strLine.StartsWith("READ ", true, null)) strFullCode += String.Format("USERVARIABLE\n{0}\n", rest(strLine, 5));
+                else if (strLine.StartsWith("SETVAR ", true, null)) strFullCode += String.Format("VARIABLE\n{0}\n{1}\n", rest(strLine, 7).Split(space)[0], rest(strLine, 7).Split(space)[1]);
+                else if (strLine.StartsWith("STARTPROCESS ", true, null)) strFullCode += String.Format("START\n{0}\n", rest(strLine, 13));
+                else if (strLine.StartsWith("SUBTRACT ", true, null)) strFullCode += String.Format("SUBTRACT\n{0}\n{1}\n{2}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1], rest(strLine, 9).Split(space)[2]);
+                else if (strLine.StartsWith("TONUMBER ", true, null)) strFullCode += String.Format("TONUMBER\n{0}\n{1}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
+                else if (strLine.StartsWith("TOSTRING ", true, null)) strFullCode += String.Format("TOSTRING\n{0}\n{1}\n", rest(strLine, 9).Split(space)[0], rest(strLine, 9).Split(space)[1]);
                 else { Console.Write("Err: " + strLine + " "); bCorrect = false; }
             } while (!psc.EndOfStream);
             if (bCorrect) Console.WriteLine("Success!");
@@ -222,7 +252,11 @@ namespace NegativeFourPotatoes.PS
             /**  Et Cetera, Et Cetera  **/
             /****************************/
             psc.Close();
-            for (int q = 0; q < args.Length; q++) vars.Add("ARG" + q, args[q]);
+            for (int q = 0; q < args.Length; q++)
+            {
+                vars.Add("ARG" + q, args[q]);
+                arenums.Add("ARG" + q, false);
+            }
             string strTitle = Console.Title;
             Console.Title = "PotatoScript";
             sbyte result = RunCode(strFullCode);
@@ -235,13 +269,14 @@ namespace NegativeFourPotatoes.PS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         private static sbyte RunCode(string psmc)
         {
+            bool isnum;
             char[] q = new char[1];
             q[0] = '\n';
             while (!String.IsNullOrEmpty(psmc))
             {
-                string strCurrentLine = psmc.Split(q)[0];
-                psmc = psmc.Substring(strCurrentLine.Length + 1);
-                switch (strCurrentLine)
+                string strLine = psmc.Split(q)[0];
+                nextline(out psmc, psmc);
+                switch (strLine)
                 {
                     case "SOUND":
                         Console.Beep();
@@ -250,13 +285,103 @@ namespace NegativeFourPotatoes.PS
                         Console.Clear();
                         continue;
                     case "CONCATENATE":
-                        if (vars.ContainsKey(psmc.Split(q)[2])) vars.Remove(psmc.Split(q)[2]);
+                        arenums.Remove(psmc.Split(q)[2]);
+                        arenums.Add(psmc.Split(q)[2], false);
+                        vars.Remove(psmc.Split(q)[2]);
                         string string1 = String.Empty;
                         string string2 = String.Empty;
                         vars.TryGetValue(psmc.Split(q)[0], out string1);
                         vars.TryGetValue(psmc.Split(q)[1], out string2);
                         vars.Add(psmc.Split(q)[2], string1 + string2);
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1).Substring(psmc.Split(q)[0].Length + 1).Substring(psmc.Split(q)[0].Length + 1);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        continue;
+                    case "COPYVARIABLE":
+                        arenums.Remove(psmc.Split(q)[1]);
+                        vars.Remove(psmc.Split(q)[1]);
+                        nums.Remove(psmc.Split(q)[1]);
+                        bool isfirstnum;
+                        arenums.TryGetValue(psmc.Split(q)[0], out isfirstnum);
+                        arenums.Add(psmc.Split(q)[1], isfirstnum);
+                        if (isfirstnum)
+                        {
+                            double number;
+                            nums.TryGetValue(psmc.Split(q)[0], out number);
+                            nums.Add(psmc.Split(q)[1], number);
+                        }
+                        else
+                        {
+                            string text;
+                            vars.TryGetValue(psmc.Split(q)[0], out text);
+                            vars.Add(psmc.Split(q)[1], text);
+                        }
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        continue;
+                    case "TOSTRING":
+                        arenums.Remove(psmc.Split(q)[1]);
+                        arenums.Add(psmc.Split(q)[1], false);
+                        vars.Remove(psmc.Split(q)[1]);
+                        nums.Remove(psmc.Split(q)[1]);
+                        double firstnumber;
+                        nums.TryGetValue(psmc.Split(q)[0], out firstnumber);
+                        vars.Add(psmc.Split(q)[1], firstnumber.ToString());
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        continue;
+                    case "TONUMBER":
+                        arenums.Remove(psmc.Split(q)[1]);
+                        arenums.Add(psmc.Split(q)[1], true);
+                        vars.Remove(psmc.Split(q)[1]);
+                        nums.Remove(psmc.Split(q)[1]);
+                        string firststring;
+                        vars.TryGetValue(psmc.Split(q)[0], out firststring);
+                        try
+                        {
+                            nums.Add(psmc.Split(q)[1], double.Parse(firststring));
+                        }
+                        catch (FormatException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("I don't think that command will work here.");
+                        }
+                        catch (OverflowException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Be reasonable!  We can talk this out!");
+                        }
+                        finally
+                        {
+                            nextline(out psmc, psmc);
+                            nextline(out psmc, psmc);
+                        }
+                        continue;
+                    case "DIVIDE":
+                        arenums.Remove(psmc.Split(q)[2]);
+                        arenums.Add(psmc.Split(q)[2], true);
+                        vars.Remove(psmc.Split(q)[2]);
+                        nums.Remove(psmc.Split(q)[2]);
+                        double left;
+                        double right;
+                        nums.TryGetValue(psmc.Split(q)[0], out left);
+                        nums.TryGetValue(psmc.Split(q)[1], out right);
+                        nums.Add(psmc.Split(q)[2], left / right);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        continue;
+                    case "EXPONENT":
+                        arenums.Remove(psmc.Split(q)[2]);
+                        arenums.Add(psmc.Split(q)[2], true);
+                        vars.Remove(psmc.Split(q)[2]);
+                        nums.Remove(psmc.Split(q)[2]);
+                        nums.TryGetValue(psmc.Split(q)[0], out left);
+                        nums.TryGetValue(psmc.Split(q)[1], out right);
+                        nums.Add(psmc.Split(q)[2], System.Math.Pow(left, right));
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "EXIT":
                         sbyte result;
@@ -270,7 +395,14 @@ namespace NegativeFourPotatoes.PS
                             if (vars.TryGetValue("__DIR__", out dir))
                             {
                                 logfile = new StreamWriter(dir + "logfile.log", true);
-                                vars.TryGetValue(psmc.Split(q)[0], out variable);
+                                arenums.TryGetValue(psmc.Split(q)[0], out isnum);
+                                if (isnum)
+                                {
+                                    double number;
+                                    nums.TryGetValue(psmc.Split(q)[0], out number);
+                                    variable = number.ToString();
+                                }
+                                else vars.TryGetValue(psmc.Split(q)[0], out variable);
                                 logfile.WriteLine(variable);
                                 logfile.Flush();
                             }
@@ -341,37 +473,80 @@ namespace NegativeFourPotatoes.PS
                         continue;
                     case "CONSOLE":
                         variable = String.Empty;
-                        vars.TryGetValue(psmc.Split(q)[0], out variable);
+                        arenums.TryGetValue(psmc.Split(q)[0], out isnum);
+                        if (isnum)
+                        {
+                            double number;
+                            nums.TryGetValue(psmc.Split(q)[0], out number);
+                            variable = number.ToString();
+                        }
+                        else vars.TryGetValue(psmc.Split(q)[0], out variable);
                         Console.WriteLine(variable);
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
+                        nextline(out psmc, psmc);
+                        continue;
+                    case "SUBTRACT":
+                        arenums.Remove(psmc.Split(q)[2]);
+                        arenums.Add(psmc.Split(q)[2], true);
+                        vars.Remove(psmc.Split(q)[2]);
+                        nums.Remove(psmc.Split(q)[2]);
+                        nums.TryGetValue(psmc.Split(q)[0], out left);
+                        nums.TryGetValue(psmc.Split(q)[1], out right);
+                        nums.Add(psmc.Split(q)[2], left - right);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "USERVARIABLE":
-                        if (vars.ContainsKey(psmc.Split(q)[0])) vars.Remove(psmc.Split(q)[0]);
-                        vars.Add(psmc.Split(q)[0], Console.ReadLine());
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1);
+                        arenums.Remove(psmc.Split(q)[0]);
+                        vars.Remove(psmc.Split(q)[0]);
+                        nums.Remove(psmc.Split(q)[0]);
+                        string input = Console.ReadLine();
+                        double inputnum;
+                        if (double.TryParse(input, out inputnum))
+                        {
+                            nums.Add(psmc.Split(q)[0], inputnum);
+                            arenums.Add(psmc.Split(q)[0], true);
+                        }
+                        else
+                        {
+                            vars.Add(psmc.Split(q)[0], input);
+                            arenums.Add(psmc.Split(q)[0], false);
+                        }
+                        nextline(out psmc, psmc);
                         continue;
                     case "VARIABLE":
-                        if (vars.ContainsKey(psmc.Split(q)[0])) vars.Remove(psmc.Split(q)[0]);
-                        vars.Add(psmc.Split(q)[0], psmc.Split(q)[1]);
-                        psmc = psmc.Substring(psmc.Split(q)[0].Length + 1).Substring(psmc.Split(q)[0].Length + 1);
+                        arenums.Remove(psmc.Split(q)[0]);
+                        vars.Remove(psmc.Split(q)[0]);
+                        nums.Remove(psmc.Split(q)[0]);
+                        if (double.TryParse(psmc.Split(q)[1], out inputnum))
+                        {
+                            nums.Add(psmc.Split(q)[0], inputnum);
+                            arenums.Add(psmc.Split(q)[0], true);
+                        }
+                        else
+                        {
+                            vars.Add(psmc.Split(q)[0], psmc.Split(q)[1]);
+                            arenums.Add(psmc.Split(q)[0], false);
+                        }
+                        nextline(out psmc, psmc);
+                        nextline(out psmc, psmc);
                         continue;
                     case "START":
                         System.Diagnostics.Process process = null;
-                        try
+                        string directory;
+                        if (vars.TryGetValue("__DIR__", out directory))
                         {
-                            string dir;
-                            if (vars.TryGetValue("__DIR__", out dir))
+                            process = new System.Diagnostics.Process();
+                            process.StartInfo.FileName = directory + psmc.Split(q)[0];
+                            try { if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!"); }
+                            catch (System.ComponentModel.Win32Exception e)
                             {
-                                process = new System.Diagnostics.Process();
-                                process.StartInfo.FileName = dir + psmc.Split(q)[0];
-                                if (!process.Start()) Console.WriteLine("Warning!  Could not start \'" + process.StartInfo.FileName + "\'!");
+                                Console.WriteLine(e.Message);
+                                Console.WriteLine("AHH!  AN ERROR!");
                             }
                         }
-                        catch (InvalidOperationException) { }
-                        finally
-                        {
-                            if (process != null) process.Close();
-                        }
+                        if (process != null) process.Close();
+                        nextline(out psmc, psmc);
                         continue;
                 }
             }
