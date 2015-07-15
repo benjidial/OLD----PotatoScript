@@ -3,7 +3,6 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
-*.psc    diff=other
 
 # Standard to msysgit
 *.doc	 diff=astextplain
@@ -18,4 +17,5 @@
 *.RTF	 diff=astextplain
 
 *.cs linguist-language=csharp
+*.psc linguist-language=other
 
