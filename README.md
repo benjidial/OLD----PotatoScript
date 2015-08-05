@@ -4,6 +4,17 @@ Please read the license file.  It is also available online at <http://opensource
 Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Version History
+### Alpha 0.5.0
+**Numbers and examples!**  
+Renamed `NegativeFourPotatoes` namespace to `NFP`.  
+Added number variables.  
+Added `ADD`, `SUBTRACT`, `MULTIPLY`, `DIVIDE`, `EXPONENT`, `TONUMBER`, and `TOSTRING` commands.  
+Added `COPY` command.  
+Added error handling for `STARTPROCESS` command.  
+Got rid of `/F:` in front of filename on command-line.  Do `PS /?` for more info.  
+Modified the way the code deals with errors during `GetReady`.  
+Added `Adder.psc` and `Printer.psc` examples.  
+No longer crashes upon starting with no arguments.
 ### Alpha 0.4.1
 Changed some internal workings.  
 Made some code easier to keep up with.

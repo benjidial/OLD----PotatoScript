@@ -17,4 +17,5 @@
 *.RTF	 diff=astextplain
 
 *.cs linguist-language=csharp
+*.psc linguist-language=other
 
