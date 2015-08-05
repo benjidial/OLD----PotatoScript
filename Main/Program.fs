@@ -39,27 +39,41 @@ module ProcessCommandLine =
     printfn "TODO"
     0
 
-  let ProcessFile(str : string, parameters : string[]) =
+  let ProcessFile(str : string, parameters : string[], autoError : bool, errorResponse : bool) =
     printfn "TODO"
     0
 
   [<EntryPoint>]
   let main argv = 
-    let mutable errorAuto = false
-    let mutable errorResponse = false
     try
       if argv.Length = 0
-      then InvalidCommandLine()
+      then InvalidCommandLine() // PotatoScript
       elif argv.Length = 1
       then
         match argv.[0] with
-        |"/?" -> CommandLineSyntax(); 1
-        |"/S" -> PotatoScriptSyntax(); 2
-        |"/I" -> PotatoScriptInteractive()
-        |"/Y" -> InvalidCommandLine()
-        |"/N" -> InvalidCommandLine()
-        |a -> ProcessFile(a, null)
-      else printfn "TODO"; 0
+        |"/?" -> CommandLineSyntax(); 1    // PotatoScript /?
+        |"/S" -> PotatoScriptSyntax(); 2   // PotatoScript /S
+        |"/I" -> PotatoScriptInteractive() // PotatoScript /I
+        |"/Y" -> InvalidCommandLine()      // PotatoScript /Y
+        |"/N" -> InvalidCommandLine()      // PotatoScript /N
+        |a -> ProcessFile(a, [||], false, false) // PotatoScript _
+      elif argv.Length = 2
+      then
+        match argv.[0] with
+        |"/?" -> InvalidCommandLine() // PotatoScript /? _
+        |"/S" -> InvalidCommandLine() // PotatoScript /S _
+        |"/I" -> InvalidCommandLine() // PotatoScript /I _
+        |"/Y" -> ProcessFile(argv.[1], [||], true, true)  // PotatoScript /Y _
+        |"/N" -> ProcessFile(argv.[1], [||], true, false) // PotatoScript /N _
+        |a -> ProcessFile(a, [|argv.[1]|], false, false)  // PotatoScript _ _
+      else
+        match argv.[0] with
+        |"/?" -> InvalidCommandLine() // PotatoScript /? *
+        |"/S" -> InvalidCommandLine() // PotatoScript /S *
+        |"/I" -> InvalidCommandLine() // PotatoScript /I *
+        |"/Y" -> ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)), true, true)  // PotatoScript /Y *
+        |"/N" -> ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)), true, false) // PotatoScript /N *
+        |a -> ProcessFile(a, (Array.sub argv 1 (argv.Length - 1)), false, false)  // PotatoScript *
     with
     |Error(errorReason, exitCode, tellUser) ->
       if tellUser
