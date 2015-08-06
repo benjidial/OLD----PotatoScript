@@ -47,8 +47,12 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <Compile Include="PSState.fs" />
+    <Compile Include="ProcessPSStatement.fs" />
+    <Compile Include="PSInteractive.fs" />
+    <Compile Include="ProcessFile.fs" />
+    <Compile Include="ProcessCommandLine.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

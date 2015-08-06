@@ -30,70 +30,87 @@ module ProcessCommandLine =
     printfn "arg1 ...  These are arguments to supply to the file."
 
   let InvalidCommandLine () =
-    raise  (CommandLineError("Invalid command line syntax!", -2))
+    raise (CommandLineError("Invalid command line syntax!", -2))
 
-  let PotatoScriptSyntax (command : string) = 
+  let PSSyntax (command : string) = 
     match command with
     |"" ->
       printfn "List of PotatoScript commands:"
-      printfn "start, exit"
+      printfn "Top-level:\n#auto, #start, #exit"
       printfn "To see information about a specific command, type"
       printfn "  PotatoScript /S command"
+    |"#auto" ->
+      printfn "#auto command:"
+      printfn "Location: Top-level"
+      printfn "Result:   none"
+      printfn "This tells the PotatoScript processor to automatically look"
+      printfn "for commands in this location as though they were actually"
+      printfn "top-level commands."
+      printfn "Usage:    #auto location"
+      printfn "Example:  #auto BillyBob.MyLibrary"
+    |"exit" ->
+      printfn "#exit command:"
+      printfn "Location: Top-level"
+      printfn "Result:   none"
+      printfn "This will stop the processing of the file and return the"
+      printfn "specified integer to the OS.  If no integer is specified, 0"
+      printfn "will be returned.  If the value specified cannot be"
+      printfn "converted to an integer or is outside the range of a 32-bit"
+      printfn "signed integer, 1 will be returned."
+      printfn "Usage:    #exit integer"
+      printfn "Example:  #exit 0"
     |"start" ->
-      printfn "start command:"
+      printfn "#start command:"
+      printfn "Location: Top-level"
+      printfn "Result:   none"
       printfn "Put this in a file to specify where the processing starts."
       printfn "If more than one of these are found, it will start at the"
       printfn "first one found.  If none are found, it will start at the"
       printfn "beginning of the file."
-      printfn "Usage:  start"
-    |"exit" ->
-      printfn "exit command:"
-      printfn "This will stop the processing of the file and return the"
-      printfn "specified integer to the OS.  If no integer is specified, 0"
-      printfn "will be returned."
-      printfn "Usage:    exit [expression]"
-      printfn "Example:  exit 0"
+      printfn "Usage:  #start"
     |a -> raise (CommandLineError("No help available for " + a + "!", -3))
 
-  let PotatoScriptInteractive () : int =
-    printfn "TODO"
-    0
-
-  let ProcessFile(str : string, parameters : string[], autoError : bool, errorResponse : bool) =
-    printfn "TODO"
-    0
-
   [<EntryPoint>]
-  let main argv = 
+  let ProcessCommandLine argv = 
     try
       if argv.Length = 0
-      then InvalidCommandLine() // PotatoScript
+      then InvalidCommandLine()
       elif argv.Length = 1
       then
         match argv.[0] with
-        |"/?" -> CommandLineSyntax(); 1    // PotatoScript /?
-        |"/S" -> PotatoScriptSyntax(""); 2 // PotatoScript /S
-        |"/I" -> PotatoScriptInteractive() // PotatoScript /I
-        |"/Y" -> InvalidCommandLine()      // PotatoScript /Y
-        |"/N" -> InvalidCommandLine()      // PotatoScript /N
-        |a -> ProcessFile(a, [||], false, false) // PotatoScript _
+        |"/?" -> CommandLineSyntax(); 1
+        |"/S" -> PSSyntax(""); 2
+        |"/I" -> PSInteractive.PSInteractive()
+        |"/Y" -> InvalidCommandLine()
+        |"/N" -> InvalidCommandLine()
+        |a -> ProcessFile.ProcessFile(a, [||])
       elif argv.Length = 2
       then
         match argv.[0] with
-        |"/?" -> InvalidCommandLine()            // PotatoScript /? _
-        |"/S" -> PotatoScriptSyntax(argv.[1]); 2 // PotatoScript /S _
-        |"/I" -> InvalidCommandLine()            // PotatoScript /I _
-        |"/Y" -> ProcessFile(argv.[1], [||], true, true)  // PotatoScript /Y _
-        |"/N" -> ProcessFile(argv.[1], [||], true, false) // PotatoScript /N _
-        |a -> ProcessFile(a, [|argv.[1]|], false, false)  // PotatoScript _ _
+        |"/?" -> InvalidCommandLine()
+        |"/S" -> PSSyntax(argv.[1]); 2
+        |"/I" -> InvalidCommandLine()
+        |"/Y" ->
+          PSState.autoError <- true
+          PSState.errorResponse <- true
+          ProcessFile.ProcessFile(argv.[1], [||])
+        |"/N" ->
+          PSState.autoError <- true
+          ProcessFile.ProcessFile(argv.[1], [||])
+        |a -> ProcessFile.ProcessFile(a, [|argv.[1]|])
       else
         match argv.[0] with
-        |"/?" -> InvalidCommandLine() // PotatoScript /? *
-        |"/S" -> InvalidCommandLine() // PotatoScript /S *
-        |"/I" -> InvalidCommandLine() // PotatoScript /I *
-        |"/Y" -> ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)), true, true)  // PotatoScript /Y *
-        |"/N" -> ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)), true, false) // PotatoScript /N *
-        |a -> ProcessFile(a, (Array.sub argv 1 (argv.Length - 1)), false, false)          // PotatoScript *
+        |"/?" -> InvalidCommandLine()
+        |"/S" -> InvalidCommandLine()
+        |"/I" -> InvalidCommandLine()
+        |"/Y" ->
+          PSState.autoError <- true
+          PSState.errorResponse <- true
+          ProcessFile.ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)))
+        |"/N" ->
+          PSState.autoError <- true
+          ProcessFile.ProcessFile(argv.[1], (Array.sub argv 2 (argv.Length - 2)))
+        |a -> ProcessFile.ProcessFile(a, (Array.sub argv 1 (argv.Length - 1)))
     with
     |CommandLineError(errorReason, exitCode) ->
       printfn "%s\nCode: 0x%x" errorReason exitCode
