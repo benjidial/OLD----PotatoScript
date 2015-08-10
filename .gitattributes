@@ -1,8 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
 
 # Standard to msysgit
 *.doc	 diff=astextplain
@@ -16,6 +14,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-*.cs linguist-language=csharp
 *.psc linguist-language=other
 
