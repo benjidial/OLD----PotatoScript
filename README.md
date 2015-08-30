@@ -1,7 +1,5 @@
 # PotatoScript
-This is the PotatoScript programming language.  It is developed by [Benji Dial](https://github.com/benjidial) and [Warren Galloway](https://github.com/nightofthecastle).  
-Please read the license file.  It is also available online at <http://opensource.org/licenses/MIT>.  
-Feel free to create issues and pull requests to the repository as long as they are relevant.
+This is the PotatoScript programming language.  It is developed by [Benji Dial](https://github.com/benjidial) and [Warren Galloway](https://github.com/nightofthecastle).  Please read the license file.  It is also available online at <http://opensource.org/licenses/MIT>.  Feel free to create issues and pull requests to the repository as long as they are relevant.
 
 ## Project members:
 * Management:
