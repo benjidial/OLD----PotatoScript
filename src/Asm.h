@@ -1,22 +1,26 @@
-// PotatoScript Alpha 0.6.0 Alpha Asm.h
-// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the MIT license.
-// The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
-
 #ifndef PS_ASM_H
 #define PS_ASM_H
 
 #include <stdio.h>
+#include <string.h>
 #include "Common.h"
+
+// PotatoScript Alpha 0.6.0 Alpha Asm.h
+// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the MIT license.
+// The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
 
 int convertToAsm(int bits, int os, int syntax, char* pscFilename, char* asmFilename)
 {
   FILE *pscFilePtr = fopen(pscFilename, "r");
   if (!pscFilePtr)
   {
-    fclose(pscFilePtr);
     return anError("Could not find the psc source file specified.  (Is it in another folder, or not yet saved?)", PSCFNF);
   }
   FILE *asmFilePtr = fopen(asmFilename, "w");
+  if (!asmFilePtr)
+  {
+     return anError("Could not access the asm ouput file specified.  (Is it on an unmapped drive?  If it exists, is it readonly, or open in another program?)", ASMFNF);
+  }
   fprintf(asmFilePtr, "; Auto-generated from %s by PotatoScript Alpha 0.6.0 Alpha.\n", pscFilename);
   fprintf(asmFilePtr, "; Designed for ");
   switch (bits)

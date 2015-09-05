@@ -1,13 +1,13 @@
-// PotatoScript Alpha 0.6.0 Alpha CmdLine.h
-// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the MIT license.
-// The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
-
 #ifndef PS_CMDLINE_H
 #define PS_CMDLINE_H
 
 #include <stdio.h>
 #include "Asm.h"
 #include "Common.h"
+
+// PotatoScript Alpha 0.6.0 Alpha CmdLine.h
+// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the MIT license.
+// The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
 
 int invalidArgs(char* message)
 {
