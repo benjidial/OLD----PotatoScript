@@ -5,9 +5,9 @@
 #include <string.h>
 #include "Common.h"
 
-// PotatoScript Alpha 0.6.0 Alpha Asm.h
+// PotatoScript Classic Alpha 0.6.0 Alpha Asm.h
 // The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.
-// The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
+// The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.
 
 int convertToAsm(int bits, int os, int syntax, char *pscFilename, char *asmFilename) {
   FILE *pscFilePtr = fopen(pscFilename, "r");
