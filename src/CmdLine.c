@@ -1,22 +1,18 @@
-#ifndef PS_CMDLINE_H
-#define PS_CMDLINE_H
-
 #include <stdio.h>
 #include "Asm.h"
 #include "Common.h"
 
 // PotatoScript Alpha 0.6.0 Alpha CmdLine.h
-// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the MIT license.
+// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.
 // The official PotatoScript GitHub repository is available at <https://github.com/benjidial/PotatoScript>.
 
-int invalidArgs(char* message)
+int invalidArgs(char *message)
 {
   printf("Invalid command line syntax: %s\nTry PotatoScript -help\n", message);
   return 0;
 }
 
-int helpCommand()
-{
+int helpCommand() {
   printf("Usage: PotatoScript -help\n");
   printf("Usage: PotatoScript -asm bits os syntax pscfile asmfile\n");
   printf("\n");
@@ -38,18 +34,15 @@ int helpCommand()
   return 0;
 }
 
-int cmdLine(int argc, char* args[])
-{
+int cmdLine(int argc, char **args) {
   if (argc == 1)
     return invalidArgs("Please specify at least one argument.");
-  if (!strcmp(args[1], "-help"))
-  {
+  if (!strcmp(args[1], "-help") {
     if (argc == 2)
       return helpCommand();
     return invalidArgs("If -help is specified, no other arguments should be specified.");
   }
-  if (!strcmp(args[1], "-asm"))
-  {
+  if (!strcmp(args[1], "-asm")) {
     int bitsArg;
     int osArg;
     int syntaxArg;
@@ -91,5 +84,3 @@ int cmdLine(int argc, char* args[])
   }
   return invalidArgs("The first argument should be -help or -asm.");
 }
-
-#endif
