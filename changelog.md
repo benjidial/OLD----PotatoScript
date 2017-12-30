@@ -1,5 +1,10 @@
 # Version History
-## Alpha 0.4.0 to Alpha 0.5.0
+## Alpha
+### Alpha 0.6.0 (Alpha 2)
+**Starting afresh**
+With `_`, `#`, `asm`, `dat`, `do`, `end`, `goto`, `label`, `ret`, `start` and `string` commands.  
+With `add`, `mul`, `say` and `store` interfaces.  
+Supports 32- and 64-bit Linux.
 ### Alpha 0.5.0
 **Numbers and examples!**  
 Renamed `NegativeFourPotatoes` namespace to `NFP`.  
@@ -21,7 +26,7 @@ Terminal's title will be changed to PotatoScript whilst code is running.
 Added `CONCAT`, `LOGVAR`, `OUTPUTVAR`, `READ`, and `SETVAR` commands.  
 Slightly modified the visual style of `PS /S`.  
 The program will now prompt a user on whether he or she wants to attempt to execute code with syntax errors in it.
-## Pre-Alpha 0.1.0 to Pre-Alpha 0.3.1
+## Pre-Alpha
 ### Pre-Alpha 0.3.1
 Fixed a *large* issue which prefixes the `filename` argument with 'F:'.
 ### Pre-Alpha 0.3.0
