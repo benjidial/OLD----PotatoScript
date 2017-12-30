@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
   }
   puts("NASM syntax\n; The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.\n; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
   puts("  global _start\nsection .text");
+  int dat = 0, _n = 0;
   char buf[128];
   while (gets(buf) != NULL)
     if (!strncmp("#_ ", buf, 3)) {
@@ -85,8 +86,10 @@ int main(int argc, char **argv) {
     else if (!strcmp("#asm", buf))
       while ((gets(buf) != NULL) && !strcmp("#asm", buf))
         puts(buf);
-    else if (!strcmp("#dat", buf))
+    else if (!strcmp("#dat", buf)) {
       puts("section .data");
+      dat = 1;
+    }
     else if (!strncmp("#do ", buf, 4))
       printf("  call %s\n", buf + 4);
     else if (!strncmp("#end ", buf, 5)) {
@@ -116,16 +119,18 @@ int main(int argc, char **argv) {
       char next;
       while ((next = *(tok++)) != ' ')
         putchar(next);
-      printf(" db \"%s\"\n", tok);
+      printf(" db \"%s\", 0\n", tok);
     }
-    else if (!strncmp(".say ", buf, 5))
+    else if (!strncmp(".say ", buf, 5)) {
       switch (os) {
        case LINUX32:
-        printf("  mov eax, 4\n  mov ebx, 1\n  mov ecx, _dat%s\n  mov edx, 0xffff\n  int 80h\n", buf + 5);
+        printf("  mov eax, 4\n  mov ebx, 1\n  mov ecx, _dat%s\n  mov edx, 0xffff\n  int 80h\n  mov ecx, _n\n  mov edx, 1\n  int80h\n", buf + 5);
         break;
        case LINUX64:
-        printf("  mov rax, 1\n  mov rdi, 1\n  mov rsi, _dat%s\n  mov rdx, 0xffffffff\n  syscall\n", buf + 5);
+        printf("  mov rax, 1\n  mov rdi, 1\n  mov rsi, _dat%s\n  mov rdx, 0xffffffff\n  syscall\n  mov rsi, _n\n  mov rdx, 1\n  syscall\n", buf + 5);
       }
+      _n = 1;
+    }
     else if (!strncmp(".listen ", buf, 8))
       ;/*TODO*/
     else if (!strncmp(".add ", buf, 5)) {
@@ -145,5 +150,14 @@ int main(int argc, char **argv) {
     }
     else
       ;/*TODO*/
+  if (_n) {
+    if (!dat)
+      puts("section data");
+    switch (os) {
+     case LINUX32:
+     case LINUX64:
+      puts("  _n db ah");
+    }
+  }
   return 0; 
 }
