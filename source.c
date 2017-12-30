@@ -30,15 +30,17 @@ void expression2(char *buffer) {
 int main(int argc, char **argv) {
   char regpre = 'r', os = LINUX64, comments = 0;
   for (int i = 1; i < argc; i++)
-    if (!(strcmp(argv[i], "--help") && strcmp(argv[i], "-h")))
+    if (!(strcmp(argv[i], "--help") && strcmp(argv[i], "-h"))) {
       puts("Command line arguments:\n"
-           "  --help (-h) Prints this screen.\n"
+           "  --help (-h) Prints this screen and exits.\n"
            "  Target operating system (--linux64 if none):\n"
            "    --linux32 (-l32) 32-bit Linux\n"
            "    --linux64 (-l64) 64-bit Linux\n"
            "  Comment handling (--ignorecomments if none\n"
            "    --keepcomments   (-kc) Keeps comments\n"
            "    --ignorecomments (-ic) Ignores comments");
+      return 0;
+    }
     else if (!(strcmp(argv[i], "--linux32") && strcmp(argv[i], "-l32"))) {
       regpre = 'e';
       os = LINUX32;
