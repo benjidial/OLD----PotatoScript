@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// PotatoScript Classic Alpha 0.6.0 Alpha
 // The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.
 // The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.
 
