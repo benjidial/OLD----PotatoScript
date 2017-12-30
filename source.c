@@ -107,7 +107,7 @@ int main(int argc, char **args) {
     else if (!strcmp("#start", buf))
       puts("_start:");
     else if (!strncmp("#string ", buf, 8)) {
-      fputs("  _dat_", stdout);
+      fputs("  _dat", stdout);
       char *tok = buf + 8;
       char next;
       while ((next = *(tok++)) != ' ')
