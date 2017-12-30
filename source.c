@@ -16,7 +16,7 @@ void expression(char *buffer) {
 
 void expression2(char *buffer) {
   char buffer2[128];
-  char *buffer2_ptr = buffer2, token = buffer;
+  char *buffer2_ptr = buffer2, *token = buffer;
   char next;
   while ((next = *(token++)) != ' ')
     *(buffer2_ptr++) = next;
@@ -27,7 +27,7 @@ void expression2(char *buffer) {
   expression(token);
 }
 
-int main(int argc, char **args) {
+int main(int argc, char **argv) {
   char regpre = 'r', os = LINUX64, comments = 0;
   for (int i = 1; i < argc; i++)
     if (!(strcmp(argv[i], "--help") && strcmp(argv[i], "-h")))
@@ -66,7 +66,7 @@ int main(int argc, char **args) {
   puts("  global _start\nsection .text");
   char buf[128];
   while (gets(buf) != NULL)
-    if (!strncmp("#_ ", buf, 3))
+    if (!strncmp("#_ ", buf, 3)) {
       fputs("  _dat_", stdout);
       char *tok = buf + 3;
       char next;
@@ -79,6 +79,7 @@ int main(int argc, char **args) {
        case LINUX64:
         printf(" dq %s\n", tok);
       }
+    }
     else if (!strncmp("##", buf, 2) && comments)
       printf(";%s\n", buf + 2);
     else if (!strcmp("#asm", buf))
