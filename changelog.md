@@ -1,7 +1,7 @@
 # Version History
 ## Alpha
 ### Alpha 0.6.0 (Alpha 2)
-**Starting afresh**
+**Starting afresh**  
 With `_`, `#`, `asm`, `dat`, `do`, `end`, `goto`, `label`, `ret`, `start` and `string` commands.  
 With `add`, `mul`, `say` and `store` interfaces.  
 Supports 32- and 64-bit Linux.
