@@ -79,9 +79,12 @@ int main(int argc, char **args) {
        case LINUX64:
         printf(" dq %s\n", tok);
       }
-    if (!strncmp("##", buf, 2) && comments)
+    else if (!strncmp("##", buf, 2) && comments)
       printf(";%s\n", buf + 2);
-    if (!strcmp("#dat", buf))
+    else if (!strcmp("#asm", buf))
+      while ((gets(buf) != NULL) && !strcmp("#asm", buf))
+        puts(buf);
+    else if (!strcmp("#dat", buf))
       puts("section .data");
     else if (!strncmp("#do ", buf, 4))
       printf("  call %s\n", buf + 4);
@@ -139,5 +142,7 @@ int main(int argc, char **args) {
       expression2(buf + 7);
       putchar('\n');
     }
+    else
+      ;/*TODO*/
   return 0; 
 }
