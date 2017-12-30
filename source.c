@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
    case LINUX64:
     fputs("64-bit Linux with ", stdout);
   }
-  puts("NASM syntax\n; The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.\n; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
+  puts("NASM syntax.\n; The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.\n; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
   puts("  global _start\nsection .text");
   int dat = 0, _n = 0;
   char buf[128];
@@ -144,8 +144,7 @@ int main(int argc, char **argv) {
         break;
        case LINUX64:
         puts("  mov rax, 0\n  mov rdi, 0\n  mov rsi, _dat");
-        char *tok = buf + 8;
-        char next;
+        tok = buf + 8;
         while ((next = *(tok++)) != ' ')
           putchar(next);
         printf("\n  mov rdx, %s\n  int 80h\n", tok);
