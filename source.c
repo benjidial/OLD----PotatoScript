@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
       putchar('\n');
     }
     else
-      ;/*TODO*/
+      fprintf(stderr, "Unrecognized line \"%s\", ignoring\n", buf);
   if (_n) {
     if (!dat)
       puts("section data");
