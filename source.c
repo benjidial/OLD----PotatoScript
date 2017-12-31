@@ -87,8 +87,12 @@ int main(int argc, char **argv) {
         printf(" dq %s\n", tok);
       }
     }
-    else if (!strncmp("##", buf, 2) && comments)
-      printf(";%s\n", buf + 2);
+    else if (!strncmp("##", buf, 2)) {
+      if (comments) {
+        putchar(';');
+        puts(buf + 2);
+      }
+    }
     else if (!strcmp("#asm", buf))
       while ((gets(buf) != NULL) && !strcmp("#asm", buf))
         puts(buf);
