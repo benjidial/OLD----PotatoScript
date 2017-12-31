@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
        case MSDOS:
         fputs("  mov ax, ", stdout);
         expression(buf + 5);
-        fputs("\n  mov ah, 76\n  int 21h");
+        fputs("\n  mov ah, 76\n  int 21h", stdout);
       }
     }
     else if (!strncmp("#goto ", buf, 6))
