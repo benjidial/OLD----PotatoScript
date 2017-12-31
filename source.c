@@ -125,6 +125,8 @@ int main(int argc, char **argv) {
     else if (!strcmp("#start", buf))
       puts("_start:");
     else if (!strncmp("#str ", buf, 5)) {
+      if (os == MSDOS)
+        puts("  resb 2");
       fputs("  _dat", stdout);
       char *tok = buf + 5;
       char next;
@@ -156,7 +158,7 @@ int main(int argc, char **argv) {
     else if (!strncmp(".listen ", buf, 8))
       switch (os) {
        case LINUX32:
-        puts("  mov eax, 3\n  mov ebx, 0\n  mov ecx, _dat");
+        fputs("  mov eax, 3\n  mov ebx, 0\n  mov ecx, _dat", stdout);
         char *tok = buf + 8;
         char next;
         while ((next = *(tok++)) != ' ')
@@ -164,14 +166,18 @@ int main(int argc, char **argv) {
         printf("\n  mov edx, %s\n  int 80h\n", tok);
         break;
        case LINUX64:
-        puts("  mov rax, 0\n  mov rdi, 0\n  mov rsi, _dat");
+        fputs("  mov rax, 0\n  mov rdi, 0\n  mov rsi, _dat", stdout);
         tok = buf + 8;
         while ((next = *(tok++)) != ' ')
           putchar(next);
         printf("\n  mov rdx, %s\n  int 80h\n", tok);
         break;
        case MSDOS:
-        /*TODO*/
+        fputs("  mov ah, 10\n  mov dx, _dat", stdout);
+        tok = buf + 8;
+        while ((next = *(tok++)) != ' ')
+          putchar(next);
+        printf(" - 2\n  mov [dx], %s\n  int 21h\n", tok);
       }
     else if (!strncmp(".add ", buf, 5)) {
       fputs("  add ", stdout);
