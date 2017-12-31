@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.
+// The PotatoScript programming language is made by Benji Dial.  It is licensed under the Apache license.
 // The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.
 
 enum os { LINUX32, LINUX64, MSDOS };
