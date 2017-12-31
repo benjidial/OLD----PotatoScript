@@ -13,4 +13,5 @@ This is the PotatoScript programming language.  It is developed by [Benji Dial](
   * [Warren Galloway](https://github.com/nightofthecastle)
   * The community ([How to create an issue](https://help.github.com/articles/creating-an-issue/))
 * Documentation:
-  * [Benji Dial](https://github.com/benjidial)
+  * [Benji Dial](https://github.com/benjidial) ([Wiki](https://github.com/benjidial/PotatoScript-Classic/wiki) and [examples](https://github.com/benjidial/PotatoScript-Classic/tree/master/examples))
+  * [Warren Galloway](https://github.com/nightofthecastle) ([Examples](https://github.com/benjidial/PotatoScript-Classic/tree/master/examples))
