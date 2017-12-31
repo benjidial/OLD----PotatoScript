@@ -4,7 +4,7 @@
 // The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.
 // The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.
 
-enum os { LINUX32, LINUX64 };
+enum os { LINUX32, LINUX64, MSDOS };
 
 void expression(char *buffer) {
   if (buffer[0] == '_')
@@ -27,27 +27,26 @@ void expression2(char *buffer) {
 }
 
 int main(int argc, char **argv) {
-  char regpre = 'r', os = LINUX64, comments = 0;
+  int os = LINUX64, comments = 0;
   for (int i = 1; i < argc; i++)
     if (!(strcmp(argv[i], "--help") && strcmp(argv[i], "-h"))) {
       puts("Command line arguments:\n"
            "  --help (-h) Prints this screen and exits.\n"
            "  Target operating system (--linux64 if none):\n"
-           "    --linux32 (-l32) 32-bit Linux\n"
-           "    --linux64 (-l64) 64-bit Linux\n"
-           "  Comment handling (--ignorecomments if none\n"
+           "    --linux32   (-l32) 32-bit Linux\n"
+           "    --linux64   (-l64) 64-bit Linux\n"
+           "    --msdos     (-msd) MS-DOS\n"
+           "  Comment handling (--ignorecomments if none):\n"
            "    --keepcomments   (-kc) Keeps comments\n"
            "    --ignorecomments (-ic) Ignores comments");
       return 0;
     }
-    else if (!(strcmp(argv[i], "--linux32") && strcmp(argv[i], "-l32"))) {
-      regpre = 'e';
+    else if (!(strcmp(argv[i], "--linux32") && strcmp(argv[i], "-l32")))
       os = LINUX32;
-    }
-    else if (!(strcmp(argv[i], "--linux64") && strcmp(argv[i], "-l64"))) {
-      regpre = 'r';
+    else if (!(strcmp(argv[i], "--linux64") && strcmp(argv[i], "-l64")))
       os = LINUX64;
-    }
+    else if (!(strcmp(argv[i], "--msdos") && strcmp(argv[i], "-msd")))
+      os = MSDOS;
     else if (!(strcmp(argv[i], "--keepcomments") && strcmp(argv[i], "-kc")))
       comments = 1;
     else if (!(strcmp(argv[i], "--ignorecomments") && strcmp(argv[i], "-ic")))
@@ -62,6 +61,9 @@ int main(int argc, char **argv) {
     break;
    case LINUX64:
     fputs("64-bit Linux with ", stdout);
+    break;
+   case MSDOS:
+    fputs("MS-DOS with ", stdout);
   }
   puts("NASM syntax.\n; The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.\n; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
   puts("  global _start\nsection .text");
@@ -75,6 +77,9 @@ int main(int argc, char **argv) {
       while ((next = *(tok++)) != ' ')
         putchar(next);
       switch (os) {
+       case MSDOS:
+        printf(" dw %s\n", tok);
+        break;
        case LINUX32:
         printf(" dd %s\n", tok);
         break;
@@ -104,6 +109,11 @@ int main(int argc, char **argv) {
         fputs("  mov rax, 60\n  mov rdi, ", stdout);
         expression(buf + 5);
         puts("\n  syscall");
+        break;
+       case MSDOS:
+        fputs("  mov ax, ", stdout);
+        expression(buf + 5);
+        fputs("\n  mov ah, 76\n  int 21h");
       }
     }
     else if (!strncmp("#goto ", buf, 6))
@@ -120,17 +130,28 @@ int main(int argc, char **argv) {
       char next;
       while ((next = *(tok++)) != ' ')
         putchar(next);
-      printf(" db \"%s\", 0\n", tok);
+      switch (os) {
+       case LINUX32:
+       case LINUX64:
+        printf(" db \"%s\", 0\n", tok);
+        break;
+       case MSDOS:
+        printf(" db \"%s%%\"\n", tok);
+      }
     }
     else if (!strncmp(".say ", buf, 5)) {
       switch (os) {
        case LINUX32:
         printf("  mov eax, 4\n  mov ebx, 1\n  mov ecx, _dat%s\n  mov edx, 0xffff\n  int 80h\n  mov ecx, _n\n  mov edx, 1\n  int80h\n", buf + 5);
+        _n = 1;
         break;
        case LINUX64:
         printf("  mov rax, 1\n  mov rdi, 1\n  mov rsi, _dat%s\n  mov rdx, 0xffffffff\n  syscall\n  mov rsi, _n\n  mov rdx, 1\n  syscall\n", buf + 5);
+        _n = 1;
+        break;
+       case MSDOS:
+        printf("  mov ah, 9\n  mov dx, [_dat%s]\n  int 21h\n  mov ah, 2\n  mov dl, 13\n  int 21h\n  mov dl, 10\n  int 21h\n", buf + 5);
       }
-      _n = 1;
     }
     else if (!strncmp(".listen ", buf, 8))
       switch (os) {
@@ -148,6 +169,9 @@ int main(int argc, char **argv) {
         while ((next = *(tok++)) != ' ')
           putchar(next);
         printf("\n  mov rdx, %s\n  int 80h\n", tok);
+        break;
+       case MSDOS:
+        /*TODO*/
       }
     else if (!strncmp(".add ", buf, 5)) {
       fputs("  add ", stdout);
@@ -169,11 +193,7 @@ int main(int argc, char **argv) {
   if (_n) {
     if (!dat)
       puts("section data");
-    switch (os) {
-     case LINUX32:
-     case LINUX64:
-      puts("  _n db ah");
-    }
+    puts("  _n db ah");
   }
   return 0; 
 }
