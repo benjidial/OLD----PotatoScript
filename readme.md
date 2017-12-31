@@ -7,13 +7,12 @@ This is the PotatoScript programming language.  It is developed by [Benji Dial](
   * [Warren Galloway](https://github.com/nightofthecastle)
 * Programming:
   * [Benji Dial](https://github.com/benjidial) (lead)
-  * The community
+  * The community ([How to fork a repository](https://help.github.com/articles/fork-a-repo/))
 * Design:
   * [Benji Dial](https://github.com/benjidial) (lead)
   * [Warren Galloway](https://github.com/nightofthecastle)
-  * The community
 * Testing:
   * [Warren Galloway](https://github.com/nightofthecastle) (lead)
-  * The community
+  * The community ([How to create an issue](https://help.github.com/articles/creating-an-issue/))
 * Documentation:
   * [Benji Dial](https://github.com/benjidial)
