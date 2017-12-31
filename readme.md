@@ -10,7 +10,6 @@ This is the PotatoScript programming language.  It is developed by [Benji Dial](
 * Design:
   * [Benji Dial](https://github.com/benjidial)
 * Testing:
-  * [Warren Galloway](https://github.com/nightofthecastle)
   * The community ([How to create an issue](https://help.github.com/articles/creating-an-issue/))
 * Documentation:
   * [Benji Dial](https://github.com/benjidial)
