@@ -3,14 +3,14 @@ This is the PotatoScript programming language.  It is developed by [Benji Dial](
 
 ## Project members:
 * Management:
-  * [Benji Dial](https://github.com/benjidial) (lead)
+  * [Benji Dial](https://github.com/benjidial)
 * Programming:
-  * [Benji Dial](https://github.com/benjidial) (lead)
+  * [Benji Dial](https://github.com/benjidial)
   * The community ([How to fork a repository](https://help.github.com/articles/fork-a-repo/))
 * Design:
-  * [Benji Dial](https://github.com/benjidial) (lead)
+  * [Benji Dial](https://github.com/benjidial)
 * Testing:
-  * [Warren Galloway](https://github.com/nightofthecastle) (lead)
+  * [Warren Galloway](https://github.com/nightofthecastle)
   * The community ([How to create an issue](https://help.github.com/articles/creating-an-issue/))
 * Documentation:
   * [Benji Dial](https://github.com/benjidial)
