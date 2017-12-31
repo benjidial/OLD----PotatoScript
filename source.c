@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
                "  int 21h\n", buf + 5);
       }
     }
-    else if (!strncmp(".listen ", buf, 8))/*FIXME*/
+    else if (!strncmp(".listen ", buf, 8))
       switch (os) {
        case LINUX32:
         fputs("  mov eax, 3\n"
@@ -213,7 +213,9 @@ int main(int argc, char **argv) {
         while ((next = *(tok++)) != ' ')
           putchar(next);
         printf("\n  mov edx, %s\n"
-                 "  int 80h\n", tok);
+                 "  int 80h\n"
+                 "  add ecx, eax\n"
+                 "  mov byte [ecx - 1], 0\n", tok);
         break;
        case LINUX64:
         fputs("  mov rax, 0\n"
@@ -223,7 +225,9 @@ int main(int argc, char **argv) {
         while ((next = *(tok++)) != ' ')
           putchar(next);
         printf("\n  mov rdx, %s\n"
-                 "  int 80h\n", tok);
+                 "  syscall\n"
+                 "  add rsi, rax\n"
+                 "  mov byte [rsi - 1], 0\n", tok);
         break;
        case MSDOS:
         fputs("  mov ah, 10\n"
