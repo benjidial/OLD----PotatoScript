@@ -4,7 +4,7 @@
 **Starting afresh**  
 With `_`, `#`, `asm`, `dat`, `do`, `end`, `goto`, `label`, `ret`, `start` and `str` commands.  
 With `add`, `listen`, `mul`, `say` and `store` interfaces.  
-Supports 32- and 64-bit Linux.
+Supports 32-bit Linux, 64-bit Linux and MS-DOS.
 ### Alpha 0.5.0
 **Numbers and examples!**  
 Renamed `NegativeFourPotatoes` namespace to `NFP`.  
