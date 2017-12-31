@@ -1,11 +1,11 @@
 # Version History
-## PotatoScript Classic
-### Alpha 0.6.0
+## PotatoScript Classic (PS-C)
+### Alpha 0.6.0 ([Beta](https://github.com/benjidial/PotatoScript-Classic/releases/tag/v0.6.0-beta1))
 **Starting afresh**  
 With `_`, `#`, `asm`, `dat`, `do`, `end`, `goto`, `label`, `ret`, `start` and `str` commands.  
 With `add`, `listen`, `mul`, `say` and `store` interfaces.  
 Supports 32-bit Linux, 64-bit Linux and MS-DOS.
-## PotatoScript
+## PotatoScript (PS)
 ### [Alpha 0.5.0](https://github.com/benjidial/PotatoScript-Classic/releases/tag/v0.5.0)
 **Numbers and examples!**  
 Renamed `NegativeFourPotatoes` namespace to `NFP`.  
@@ -46,6 +46,6 @@ Renamed PSW to PS, and `PSW /?` to `PS /?`.
 Added the ability to process .psc files with `PS /F:<filename>`.  
 Added `PS /S` for the syntax of PSC.  
 Added `BEEP`, `CLEARSCREEN`, `COMMENT`, `DIR`, `EXIT`, `MAKEFOLDER`, and `STARTPROCESS` commands to PSC.  
-## PotatoScriptW
+## PotatoScriptW (PSW)
 ### [Pre-Alpha 0.1.0](https://github.com/benjidial/PotatoScript-Classic/releases/tag/v0.1.0)
 All it has is `PSW /?`, but it's a start.
