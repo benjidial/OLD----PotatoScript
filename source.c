@@ -203,7 +203,7 @@ int main(int argc, char **argv) {
   if (_n) {
     if (!dat)
       puts("section data");
-    puts("  _n db ah");
+    puts("  _n db 10");
   }
   return 0; 
 }
