@@ -65,8 +65,10 @@ int main(int argc, char **argv) {
    case MSDOS:
     fputs("MS-DOS with ", stdout);
   }
-  puts("NASM syntax.\n; The PotatoScript programming language is made by Benji Dial and Warren Galloway.  It is licensed under the Apache license.\n; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
-  puts("  global _start\nsection .text");
+  puts("NASM syntax.\n; The PotatoScript Classic programming language is made by Benji Dial.  It is licensed under the Apache license.\n"
+                     "; The official PotatoScript Classic GitHub repository is available at <https://github.com/benjidial/PotatoScript-Classic>.");
+  puts("  global _start\n"
+       "section .text");
   int dat = 0, _n = 0;
   char buf[128];
   while (gets(buf) != NULL)
@@ -105,19 +107,22 @@ int main(int argc, char **argv) {
     else if (!strncmp("#end ", buf, 5)) {
       switch (os) {
        case LINUX32:
-        fputs("  mov eax, 1\nmov ebx, ", stdout);
+        fputs("  mov eax, 1\n"
+              "  mov ebx, ", stdout);
         expression(buf + 5);
         puts("\n  int 80h");
         break;
        case LINUX64:
-        fputs("  mov rax, 60\n  mov rdi, ", stdout);
+        fputs("  mov rax, 60\n"
+              "  mov rdi, ", stdout);
         expression(buf + 5);
         puts("\n  syscall");
         break;
        case MSDOS:
         fputs("  mov ax, ", stdout);
         expression(buf + 5);
-        fputs("\n  mov ah, 76\n  int 21h", stdout);
+        fputs("\n  mov ah, 76\n"
+                "  int 21h", stdout);
       }
     }
     else if (!strncmp("#goto ", buf, 6))
@@ -148,40 +153,83 @@ int main(int argc, char **argv) {
     else if (!strncmp(".say ", buf, 5)) {
       switch (os) {
        case LINUX32:
-        printf("  mov eax, 4\n  mov ebx, 1\n  mov ecx, _dat%s\n  mov edx, 0xffff\n  int 80h\n  mov ecx, _n\n  mov edx, 1\n  int80h\n", buf + 5);
+        printf("  mov eax, 4\n"
+               "  mov ebx, 1\n"
+               "  mov ecx, _dat%s\n"
+               "  mov edx, ecx\n"
+               "_say_%d\n"
+               "  cmp [edx], 0\n"
+               "  jnz _say_%d\n"
+               "  add edx, 1\n"
+               "  jmp _say_%d\n"
+               "_say_%d:\n"
+               "  sub edx, ecx\n"
+               "  int 80h\n"
+               "  mov ecx, _n\n"
+               "  mov edx, 1\n"
+               "  int80h\n", buf + 5, say, say++, say, say++);
         _n = 1;
         break;
        case LINUX64:
-        printf("  mov rax, 1\n  mov rdi, 1\n  mov rsi, _dat%s\n  mov rdx, 0xffffffff\n  syscall\n  mov rsi, _n\n  mov rdx, 1\n  syscall\n", buf + 5);
+        printf("  mov rax, 1\n"
+               "  mov rdi, 1\n"
+               "  mov rsi, _dat%s\n"
+               "  mov rdx, rcx\n"
+               "_say_%d\n"
+               "  cmp [rdx], 0\n"
+               "  jnz _say_%d\n"
+               "  add rdx, 1\n"
+               "  jmp _say_%d\n"
+               "_say_%d:\n"
+               "  sub rdx, rcx\n"
+               "  syscall\n"
+               "  mov rsi, _n\n"
+               "  mov rdx, 1\n"
+               "  syscall\n", buf + 5);
         _n = 1;
         break;
        case MSDOS:
-        printf("  mov ah, 9\n  mov dx, [_dat%s]\n  int 21h\n  mov ah, 2\n  mov dl, 13\n  int 21h\n  mov dl, 10\n  int 21h\n", buf + 5);
+        printf("  mov ah, 9\n"
+               "  mov dx, [_dat%s]\n"
+               "  int 21h\n"
+               "  mov ah, 2\n"
+               "  mov dl, 13\n"
+               "  int 21h\n"
+               "  mov dl, 10\n"
+               "  int 21h\n", buf + 5);
       }
     }
     else if (!strncmp(".listen ", buf, 8))
       switch (os) {
        case LINUX32:
-        fputs("  mov eax, 3\n  mov ebx, 0\n  mov ecx, _dat", stdout);
+        fputs("  mov eax, 3\n"
+              "  mov ebx, 0\n"
+              "  mov ecx, _dat", stdout);
         char *tok = buf + 8;
         char next;
         while ((next = *(tok++)) != ' ')
           putchar(next);
-        printf("\n  mov edx, %s\n  int 80h\n", tok);
+        printf("\n  mov edx, %s\n"
+                 "  int 80h\n", tok);
         break;
        case LINUX64:
-        fputs("  mov rax, 0\n  mov rdi, 0\n  mov rsi, _dat", stdout);
+        fputs("  mov rax, 0\n"
+              "  mov rdi, 0\n"
+              "  mov rsi, _dat", stdout);
         tok = buf + 8;
         while ((next = *(tok++)) != ' ')
           putchar(next);
-        printf("\n  mov rdx, %s\n  int 80h\n", tok);
+        printf("\n  mov rdx, %s\n"
+                 "  int 80h\n", tok);
         break;
        case MSDOS:
-        fputs("  mov ah, 10\n  mov dx, _dat", stdout);
+        fputs("  mov ah, 10\n"
+              "  mov dx, _dat", stdout);
         tok = buf + 8;
         while ((next = *(tok++)) != ' ')
           putchar(next);
-        printf(" - 2\n  mov [dx], %s\n  int 21h\n", tok);
+        printf(" - 2\n  mov [dx], %s\n"
+                     "  int 21h\n", tok);
       }
     else if (!strncmp(".add ", buf, 5)) {
       fputs("  add ", stdout);
